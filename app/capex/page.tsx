@@ -2,9 +2,11 @@ import { FinanceTable } from "@/components/finance-table";
 import { FinanceForm } from "@/components/forms/finance-form";
 import { PageHeader } from "@/components/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { capex } from "@/lib/seed-data";
+import { getAppData } from "@/lib/data";
 
-export default function CapexPage() {
+export default async function CapexPage() {
+  const { capex, contracts } = await getAppData();
+
   return (
     <>
       <PageHeader title="CAPEX" description="Investimentos de implantacao, infraestrutura e ativos por contrato." />
@@ -14,10 +16,10 @@ export default function CapexPage() {
             <CardTitle>Investimentos registrados</CardTitle>
           </CardHeader>
           <CardContent>
-            <FinanceTable rows={capex} label="Categoria" />
+            <FinanceTable rows={capex} label="Categoria" contracts={contracts} />
           </CardContent>
         </Card>
-        <FinanceForm title="Novo CAPEX" mode="capex" />
+        <FinanceForm title="Novo CAPEX" mode="capex" contracts={contracts} />
       </div>
     </>
   );

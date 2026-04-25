@@ -2,14 +2,18 @@
 
 import { useState } from "react";
 import type { FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import type { Contract } from "@/lib/types";
 
-export function FinanceForm({ title, mode }: { title: string; mode: "capex" | "opex" | "revenue" }) {
+export function FinanceForm({ title, mode, contracts }: { title: string; mode: "capex" | "opex" | "revenue"; contracts: Contract[] }) {
+  const router = useRouter();
   const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const defaultContractId = contracts[0]?.id;
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -34,6 +38,7 @@ export function FinanceForm({ title, mode }: { title: string; mode: "capex" | "o
     setStatus(response.ok ? "saved" : "error");
     if (response.ok) {
       event.currentTarget.reset();
+      router.refresh();
     }
   }
 
@@ -46,14 +51,16 @@ export function FinanceForm({ title, mode }: { title: string; mode: "capex" | "o
         <form className="grid gap-4 md:grid-cols-2" onSubmit={handleSubmit}>
           <div className="grid gap-2">
             <Label>Contrato</Label>
-            <Select name="contractId" defaultValue="11111111-1111-4111-8111-111111111111">
+            <Select name="contractId" defaultValue={defaultContractId}>
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="11111111-1111-4111-8111-111111111111">Linhares</SelectItem>
-                <SelectItem value="22222222-2222-4222-8222-222222222222">Aracruz</SelectItem>
-                <SelectItem value="33333333-3333-4333-8333-333333333333">Itapemirim</SelectItem>
+                {contracts.map((contract) => (
+                  <SelectItem key={contract.id} value={contract.id}>
+                    {contract.city}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>

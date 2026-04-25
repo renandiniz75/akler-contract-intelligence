@@ -19,8 +19,7 @@ MVP for managing public-sector contracts, contract items, CAPEX, OPEX, revenue p
 ```bash
 cp .env.example .env
 npm install
-npm run db:push
-npm run db:seed
+npm run db:setup
 npm run dev
 ```
 
@@ -37,6 +36,12 @@ Use:
 
 ```bash
 npm install
-npm run build
+npm run render-build
 npm run start
 ```
+
+## Data Flow
+
+The app reads from PostgreSQL when `DATABASE_URL` is configured. Without it, pages fall back to the built-in seed data so the MVP can still build and render before infrastructure exists.
+
+The seeded contracts use deterministic IDs for Linhares, Aracruz and Itapemirim, which keeps demo forms and financial records aligned across local and deployed environments.

@@ -2,9 +2,11 @@ import { FinanceTable } from "@/components/finance-table";
 import { FinanceForm } from "@/components/forms/finance-form";
 import { PageHeader } from "@/components/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { opex } from "@/lib/seed-data";
+import { getAppData } from "@/lib/data";
 
-export default function OpexPage() {
+export default async function OpexPage() {
+  const { contracts, opex } = await getAppData();
+
   return (
     <>
       <PageHeader title="OPEX" description="Custos operacionais mensais, equipe, logistica e overhead por contrato." />
@@ -14,10 +16,10 @@ export default function OpexPage() {
             <CardTitle>Despesas operacionais</CardTitle>
           </CardHeader>
           <CardContent>
-            <FinanceTable rows={opex} label="Categoria" />
+            <FinanceTable rows={opex} label="Categoria" contracts={contracts} />
           </CardContent>
         </Card>
-        <FinanceForm title="Novo OPEX" mode="opex" />
+        <FinanceForm title="Novo OPEX" mode="opex" contracts={contracts} />
       </div>
     </>
   );

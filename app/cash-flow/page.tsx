@@ -3,9 +3,10 @@ import { PageHeader } from "@/components/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { calculateCashFlow, formatCurrency } from "@/lib/calculations";
-import { capex, opex, revenue } from "@/lib/seed-data";
+import { getAppData } from "@/lib/data";
 
-export default function CashFlowPage() {
+export default async function CashFlowPage() {
+  const { capex, opex, revenue } = await getAppData();
   const cashFlow = calculateCashFlow(revenue, capex, opex);
 
   return (

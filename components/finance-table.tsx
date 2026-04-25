@@ -1,6 +1,6 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { formatCurrency } from "@/lib/calculations";
-import { contracts } from "@/lib/seed-data";
+import type { Contract } from "@/lib/types";
 
 type Row = {
   id: string;
@@ -12,7 +12,7 @@ type Row = {
   amount: number;
 };
 
-export function FinanceTable({ rows, label }: { rows: Row[]; label: string }) {
+export function FinanceTable({ rows, label, contracts }: { rows: Row[]; label: string; contracts: Contract[] }) {
   const contractNames = new Map(contracts.map((contract) => [contract.id, contract.city]));
 
   return (

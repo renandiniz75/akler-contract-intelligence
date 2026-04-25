@@ -4,9 +4,10 @@ import { PageHeader } from "@/components/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { formatCurrency } from "@/lib/calculations";
-import { contractItems, contracts } from "@/lib/seed-data";
+import { getAppData } from "@/lib/data";
 
-export default function ContractsPage() {
+export default async function ContractsPage() {
+  const { contractItems, contracts } = await getAppData();
   const contractNames = new Map(contracts.map((contract) => [contract.id, contract.city]));
 
   return (

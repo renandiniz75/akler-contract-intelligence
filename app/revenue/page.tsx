@@ -2,9 +2,11 @@ import { FinanceTable } from "@/components/finance-table";
 import { FinanceForm } from "@/components/forms/finance-form";
 import { PageHeader } from "@/components/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { revenue } from "@/lib/seed-data";
+import { getAppData } from "@/lib/data";
 
-export default function RevenuePage() {
+export default async function RevenuePage() {
+  const { contracts, revenue } = await getAppData();
+
   return (
     <>
       <PageHeader title="Receita" description="Receita projetada e realizada por contrato, mes e status financeiro." />
@@ -14,10 +16,10 @@ export default function RevenuePage() {
             <CardTitle>Lancamentos de receita</CardTitle>
           </CardHeader>
           <CardContent>
-            <FinanceTable rows={revenue} label="Status" />
+            <FinanceTable rows={revenue} label="Status" contracts={contracts} />
           </CardContent>
         </Card>
-        <FinanceForm title="Nova receita" mode="revenue" />
+        <FinanceForm title="Nova receita" mode="revenue" contracts={contracts} />
       </div>
     </>
   );

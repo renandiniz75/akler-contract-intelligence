@@ -6,9 +6,10 @@ import { StatCard } from "@/components/stat-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ContractsTable } from "@/components/contracts-table";
 import { buildDashboardSummary, calculateCashFlow, formatCurrency, formatPercent } from "@/lib/calculations";
-import { capex, contracts, opex, revenue } from "@/lib/seed-data";
+import { getAppData } from "@/lib/data";
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const { capex, contracts, opex, revenue, source } = await getAppData();
   const summary = buildDashboardSummary(contracts, revenue, capex, opex);
   const cashFlow = calculateCashFlow(revenue, capex, opex);
 
@@ -16,7 +17,7 @@ export default function DashboardPage() {
     <>
       <PageHeader
         title="Dashboard executivo"
-        description="Visao consolidada dos contratos publicos, receitas, CAPEX, OPEX, margem e payback dos contratos Akler."
+        description={`Visao consolidada dos contratos publicos, receitas, CAPEX, OPEX, margem e payback dos contratos Akler. Fonte: ${source === "database" ? "PostgreSQL" : "seed local"}.`}
       />
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
         <StatCard title="Contratado" value={formatCurrency(summary.totalContracted)} detail="Valor total em carteira" icon={Landmark} />
