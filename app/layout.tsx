@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import type { Route } from "next";
 import Link from "next/link";
+import type { LucideIcon } from "lucide-react";
 import { BarChart3, Banknote, Building2, Coins, FileText, Gauge, Settings, WalletCards } from "lucide-react";
 import "./globals.css";
 
@@ -8,7 +10,7 @@ export const metadata: Metadata = {
   description: "Public-sector contract, CAPEX, OPEX and cash-flow intelligence for Akler."
 };
 
-const navigation = [
+const navigation: Array<{ href: Route; label: string; icon: LucideIcon }> = [
   { href: "/", label: "Dashboard", icon: Gauge },
   { href: "/contracts", label: "Contratos", icon: FileText },
   { href: "/capex", label: "CAPEX", icon: Building2 },

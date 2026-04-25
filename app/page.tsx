@@ -1,4 +1,4 @@
-import { Banknote, Landmark, Percent, Timer, WalletCards } from "lucide-react";
+import { Banknote, Landmark, Percent, Timer } from "lucide-react";
 import { CashFlowChart } from "@/components/dashboard/cash-flow-chart";
 import { RevenueChart } from "@/components/dashboard/revenue-chart";
 import { PageHeader } from "@/components/page-header";
