@@ -5,10 +5,13 @@ export type CapacityScenarioInput = {
   investmentPerUnit: number;
   supplierInstallments: number;
   supplierStartOffsetMonths: number;
+  supplierStartOffsetDays: number;
   revenuePerUnitMonthly: number;
   revenueDurationMonths: number;
   revenueStartOffsetMonths: number;
+  revenueReceiptDelayDays: number;
   monthlyFixedBurn: number;
+  minimumCashBuffer: number;
 };
 
 export type CapacityScenarioMonth = {
@@ -28,13 +31,20 @@ export type CapacityScenarioResult = {
   requiredCapital: number;
   paybackMonth: number | null;
   feasible: boolean;
+  bufferBreached: boolean;
   months: CapacityScenarioMonth[];
 };
 
+function daysToMonthOffset(days: number) {
+  return Math.ceil(days / 30);
+}
+
 export function simulateCapacityScenario(input: CapacityScenarioInput): CapacityScenarioResult {
+  const supplierStartOffset = input.supplierStartOffsetMonths + daysToMonthOffset(input.supplierStartOffsetDays);
+  const revenueStartOffset = input.revenueStartOffsetMonths + daysToMonthOffset(input.revenueReceiptDelayDays);
   const horizon = Math.max(
-    input.supplierStartOffsetMonths + input.supplierInstallments,
-    input.revenueStartOffsetMonths + input.revenueDurationMonths,
+    supplierStartOffset + input.supplierInstallments,
+    revenueStartOffset + input.revenueDurationMonths,
     24
   );
   const totalInvestment = input.units * input.investmentPerUnit;
@@ -47,10 +57,8 @@ export function simulateCapacityScenario(input: CapacityScenarioInput): Capacity
 
   const months = Array.from({ length: horizon }, (_, index): CapacityScenarioMonth => {
     const month = index + 1;
-    const paysSupplier =
-      month > input.supplierStartOffsetMonths && month <= input.supplierStartOffsetMonths + input.supplierInstallments;
-    const receivesRevenue =
-      month > input.revenueStartOffsetMonths && month <= input.revenueStartOffsetMonths + input.revenueDurationMonths;
+    const paysSupplier = month > supplierStartOffset && month <= supplierStartOffset + input.supplierInstallments;
+    const receivesRevenue = month > revenueStartOffset && month <= revenueStartOffset + input.revenueDurationMonths;
     const investmentOutflow = paysSupplier ? investmentInstallment : 0;
     const newRevenue = receivesRevenue ? monthlyRevenue : 0;
     const fixedBurn = input.monthlyFixedBurn;
@@ -59,7 +67,7 @@ export function simulateCapacityScenario(input: CapacityScenarioInput): Capacity
     cumulativeCash += net;
     lowestCash = Math.min(lowestCash, cumulativeCash);
 
-    if (paybackMonth === null && cumulativeCash >= input.initialCash && month > input.supplierStartOffsetMonths) {
+    if (paybackMonth === null && cumulativeCash >= input.initialCash && month > supplierStartOffset) {
       paybackMonth = month;
     }
 
@@ -80,7 +88,8 @@ export function simulateCapacityScenario(input: CapacityScenarioInput): Capacity
     lowestCash,
     requiredCapital: Math.max(0, -lowestCash),
     paybackMonth,
-    feasible: lowestCash >= 0,
+    feasible: lowestCash >= input.minimumCashBuffer,
+    bufferBreached: lowestCash < input.minimumCashBuffer,
     months
   };
 }

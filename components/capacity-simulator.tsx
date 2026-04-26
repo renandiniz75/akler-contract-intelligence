@@ -18,10 +18,13 @@ const defaultScenario: CapacityScenarioInput = {
   investmentPerUnit: 200000,
   supplierInstallments: 12,
   supplierStartOffsetMonths: 0,
+  supplierStartOffsetDays: 0,
   revenuePerUnitMonthly: 30000,
   revenueDurationMonths: 120,
   revenueStartOffsetMonths: 1,
-  monthlyFixedBurn: 0
+  revenueReceiptDelayDays: 30,
+  monthlyFixedBurn: 0,
+  minimumCashBuffer: 0
 };
 
 const numberFields: Array<{ key: keyof CapacityScenarioInput; label: string; step?: string }> = [
@@ -29,11 +32,14 @@ const numberFields: Array<{ key: keyof CapacityScenarioInput; label: string; ste
   { key: "units", label: "Quantidade de unidades" },
   { key: "investmentPerUnit", label: "Investimento por unidade", step: "0.01" },
   { key: "supplierInstallments", label: "Parcelas do fornecedor" },
-  { key: "supplierStartOffsetMonths", label: "Inicio pagamento fornecedor" },
+  { key: "supplierStartOffsetMonths", label: "Carencia fornecedor (meses)" },
+  { key: "supplierStartOffsetDays", label: "Carencia fornecedor (dias)" },
   { key: "revenuePerUnitMonthly", label: "Receita mensal por unidade", step: "0.01" },
   { key: "revenueDurationMonths", label: "Duracao da receita" },
-  { key: "revenueStartOffsetMonths", label: "Inicio recebimento receita" },
-  { key: "monthlyFixedBurn", label: "Consumo fixo mensal adicional", step: "0.01" }
+  { key: "revenueStartOffsetMonths", label: "Inicio da medicao (meses)" },
+  { key: "revenueReceiptDelayDays", label: "Prazo recebimento orgao (dias)" },
+  { key: "monthlyFixedBurn", label: "Consumo fixo mensal adicional", step: "0.01" },
+  { key: "minimumCashBuffer", label: "Caixa minimo desejado", step: "0.01" }
 ];
 
 export function CapacitySimulator() {
@@ -59,14 +65,14 @@ export function CapacitySimulator() {
         <StatCard title="Investimento" value={formatCurrency(result.totalInvestment)} detail={`${scenario.units} unidades`} icon={Wallet} />
         <StatCard title="Receita mensal" value={formatCurrency(result.monthlyRevenue)} detail="Novo contrato" icon={Banknote} />
         <StatCard title="Menor caixa" value={formatCurrency(result.lowestCash)} detail="Pior ponto do cenario" icon={StatusIcon} />
-        <StatCard title="Capital necessario" value={formatCurrency(result.requiredCapital)} detail={result.feasible ? "Sem ruptura de caixa" : "Furo de caixa"} icon={CircleAlert} />
+        <StatCard title="Capital necessario" value={formatCurrency(result.requiredCapital)} detail={result.feasible ? "Dentro da margem" : "Abaixo do caixa minimo"} icon={CircleAlert} />
         <StatCard title="Payback" value={result.paybackMonth ? `Mes ${result.paybackMonth}` : "Nao atingido"} detail="Retorno ao caixa inicial" icon={Timer} />
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1fr_1.35fr]">
         <Card>
           <CardHeader>
-            <CardTitle>Premissas do contrato novo</CardTitle>
+            <CardTitle>Premissas manuais do contrato novo</CardTitle>
           </CardHeader>
           <CardContent>
             <form className="grid gap-4 md:grid-cols-2 xl:grid-cols-1">
