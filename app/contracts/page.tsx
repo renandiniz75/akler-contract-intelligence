@@ -6,6 +6,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { formatCurrency } from "@/lib/calculations";
 import { getAppData } from "@/lib/data";
 
+export const dynamic = "force-dynamic";
+
 export default async function ContractsPage() {
   const { contractItems, contracts } = await getAppData();
   const contractNames = new Map(contracts.map((contract) => [contract.id, contract.city]));

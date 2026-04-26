@@ -5,6 +5,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { calculateCashFlow, formatCurrency } from "@/lib/calculations";
 import { getAppData } from "@/lib/data";
 
+export const dynamic = "force-dynamic";
+
 export default async function CashFlowPage() {
   const { capex, opex, revenue } = await getAppData();
   const cashFlow = calculateCashFlow(revenue, capex, opex);

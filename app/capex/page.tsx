@@ -4,6 +4,8 @@ import { PageHeader } from "@/components/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getAppData } from "@/lib/data";
 
+export const dynamic = "force-dynamic";
+
 export default async function CapexPage() {
   const { capex, contracts } = await getAppData();
 

@@ -8,6 +8,8 @@ import { ContractsTable } from "@/components/contracts-table";
 import { buildDashboardSummary, calculateCashFlow, formatCurrency, formatPercent } from "@/lib/calculations";
 import { getAppData } from "@/lib/data";
 
+export const dynamic = "force-dynamic";
+
 export default async function DashboardPage() {
   const { capex, contracts, opex, revenue, source } = await getAppData();
   const summary = buildDashboardSummary(contracts, revenue, capex, opex);
