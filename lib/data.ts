@@ -1,5 +1,5 @@
 import { asc } from "drizzle-orm";
-import type { Capex, Contract, ContractItem, Opex, Revenue } from "@/lib/types";
+import type { Capex, Contract, ContractDocument, ContractItem, Opex, Revenue } from "@/lib/types";
 import { seedData } from "@/lib/seed-data";
 
 type AppData = {
@@ -8,6 +8,7 @@ type AppData = {
   capex: Capex[];
   opex: Opex[];
   revenue: Revenue[];
+  contractDocuments: ContractDocument[];
   source: "database" | "seed";
 };
 
@@ -27,12 +28,13 @@ export async function getAppData(): Promise<AppData> {
   try {
     const [{ db }, schema] = await Promise.all([import("@/db"), import("@/db/schema")]);
 
-    const [contractRows, itemRows, capexRows, opexRows, revenueRows] = await Promise.all([
+    const [contractRows, itemRows, capexRows, opexRows, revenueRows, documentRows] = await Promise.all([
       db.select().from(schema.contracts).orderBy(asc(schema.contracts.city)),
       db.select().from(schema.contractItems).orderBy(asc(schema.contractItems.createdAt)),
       db.select().from(schema.capex).orderBy(asc(schema.capex.month)),
       db.select().from(schema.opex).orderBy(asc(schema.opex.month)),
-      db.select().from(schema.revenue).orderBy(asc(schema.revenue.month))
+      db.select().from(schema.revenue).orderBy(asc(schema.revenue.month)),
+      db.select().from(schema.contractDocuments).orderBy(asc(schema.contractDocuments.uploadedAt))
     ]);
 
     return {
@@ -81,6 +83,14 @@ export async function getAppData(): Promise<AppData> {
         status: item.status,
         description: item.description,
         amount: toNumber(item.amount)
+      })),
+      contractDocuments: documentRows.map((item) => ({
+        id: item.id,
+        contractId: item.contractId,
+        title: item.title,
+        type: item.type,
+        url: item.url,
+        uploadedAt: item.uploadedAt.toISOString()
       }))
     };
   } catch (error) {

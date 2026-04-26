@@ -1,4 +1,4 @@
-import type { Capex, Contract, ContractItem, Opex, Revenue } from "@/lib/types";
+import type { Capex, Contract, ContractDocument, ContractItem, Opex, Revenue } from "@/lib/types";
 
 export const contracts: Contract[] = [
   {
@@ -86,10 +86,30 @@ export const revenue: Revenue[] = [
   { id: "rev-9", contractId: "33333333-3333-4333-8333-333333333333", month: "2026-04", status: "projected", description: "Medicao projetada", amount: 84000 }
 ];
 
+export const contractDocuments: ContractDocument[] = [
+  {
+    id: "doc-1",
+    contractId: "11111111-1111-4111-8111-111111111111",
+    title: "Contrato original Linhares",
+    type: "contract",
+    url: "https://example.com/linhares-contrato.pdf",
+    uploadedAt: "2026-01-01"
+  },
+  {
+    id: "doc-2",
+    contractId: "22222222-2222-4222-8222-222222222222",
+    title: "Contrato original Aracruz",
+    type: "contract",
+    url: "https://example.com/aracruz-contrato.pdf",
+    uploadedAt: "2026-02-01"
+  }
+];
+
 export const seedData = {
   contracts,
   contractItems,
   capex,
   opex,
-  revenue
+  revenue,
+  contractDocuments
 };

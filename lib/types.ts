@@ -1,6 +1,7 @@
 export type ContractStatus = "active" | "pending" | "completed" | "at_risk";
 export type RevenueStatus = "projected" | "realized";
 export type ExpenseCategory = "labor" | "materials" | "equipment" | "software" | "logistics" | "overhead";
+export type ContractDocumentType = "contract" | "amendment" | "measurement" | "invoice" | "other";
 
 export type Contract = {
   id: string;
@@ -51,6 +52,15 @@ export type Revenue = {
   description: string;
   amount: number;
   generated?: boolean;
+};
+
+export type ContractDocument = {
+  id: string;
+  contractId: string;
+  title: string;
+  type: ContractDocumentType;
+  url: string;
+  uploadedAt: string;
 };
 
 export type CashFlowMonth = {

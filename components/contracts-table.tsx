@@ -1,5 +1,7 @@
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { EditContractRecord } from "@/components/record-actions";
+import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { formatCurrency } from "@/lib/calculations";
 import { getContractPotentialMonths } from "@/lib/projections";
@@ -44,7 +46,12 @@ export function ContractsTable({ contracts }: { contracts: Contract[] }) {
             </TableCell>
             <TableCell className="text-right font-medium">{formatCurrency(contract.totalValue)}</TableCell>
             <TableCell className="text-right">
-              <EditContractRecord contract={contract} />
+              <Button asChild variant="outline" size="sm">
+                <Link href={`/contracts/${contract.id}`}>
+                  Abrir
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
             </TableCell>
           </TableRow>
         ))}

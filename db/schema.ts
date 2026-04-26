@@ -23,6 +23,7 @@ export const expenseCategoryEnum = pgEnum("expense_category", [
   "logistics",
   "overhead"
 ]);
+export const contractDocumentTypeEnum = pgEnum("contract_document_type", ["contract", "amendment", "measurement", "invoice", "other"]);
 
 export const contracts = pgTable("contracts", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -115,11 +116,29 @@ export const revenue = pgTable(
   })
 );
 
+export const contractDocuments = pgTable(
+  "contract_documents",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    contractId: uuid("contract_id")
+      .references(() => contracts.id, { onDelete: "cascade" })
+      .notNull(),
+    title: varchar("title", { length: 180 }).notNull(),
+    type: contractDocumentTypeEnum("type").notNull().default("other"),
+    url: text("url").notNull(),
+    uploadedAt: timestamp("uploaded_at", { withTimezone: true }).defaultNow().notNull()
+  },
+  (table) => ({
+    contractIdx: index("contract_documents_contract_idx").on(table.contractId)
+  })
+);
+
 export const contractsRelations = relations(contracts, ({ many }) => ({
   items: many(contractItems),
   capex: many(capex),
   opex: many(opex),
-  revenue: many(revenue)
+  revenue: many(revenue),
+  documents: many(contractDocuments)
 }));
 
 export const contractItemsRelations = relations(contractItems, ({ one }) => ({
@@ -146,6 +165,13 @@ export const opexRelations = relations(opex, ({ one }) => ({
 export const revenueRelations = relations(revenue, ({ one }) => ({
   contract: one(contracts, {
     fields: [revenue.contractId],
+    references: [contracts.id]
+  })
+}));
+
+export const contractDocumentsRelations = relations(contractDocuments, ({ one }) => ({
+  contract: one(contracts, {
+    fields: [contractDocuments.contractId],
     references: [contracts.id]
   })
 }));

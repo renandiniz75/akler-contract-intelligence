@@ -4,6 +4,7 @@ import { seedData } from "@/lib/seed-data";
 
 async function main() {
   await db.delete(schema.revenue);
+  await db.delete(schema.contractDocuments);
   await db.delete(schema.opex);
   await db.delete(schema.capex);
   await db.delete(schema.contractItems);
@@ -69,6 +70,16 @@ async function main() {
       status: item.status,
       description: item.description,
       amount: item.amount.toString()
+    }))
+  );
+
+  await db.insert(schema.contractDocuments).values(
+    seedData.contractDocuments.map((item) => ({
+      contractId: contractIdMap.get(item.contractId)!,
+      title: item.title,
+      type: item.type,
+      url: item.url,
+      uploadedAt: new Date(item.uploadedAt)
     }))
   );
 
