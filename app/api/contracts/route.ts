@@ -12,7 +12,10 @@ const contractSchema = z.object({
   startDate: z.string().min(10),
   endDate: z.string().min(10),
   status: z.enum(["active", "pending", "completed", "at_risk"]).default("pending"),
-  totalValue: z.coerce.number().nonnegative()
+  totalValue: z.coerce.number().nonnegative(),
+  initialTermMonths: z.coerce.number().int().positive().default(12),
+  renewalCount: z.coerce.number().int().nonnegative().default(9),
+  renewalTermMonths: z.coerce.number().int().positive().default(12)
 });
 
 export async function GET() {

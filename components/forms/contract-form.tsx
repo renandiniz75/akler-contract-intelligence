@@ -26,7 +26,10 @@ export function ContractForm() {
       startDate: formData.get("startDate"),
       endDate: formData.get("endDate"),
       totalValue: formData.get("totalValue"),
-      status: formData.get("status")
+      status: formData.get("status"),
+      initialTermMonths: formData.get("initialTermMonths"),
+      renewalCount: formData.get("renewalCount"),
+      renewalTermMonths: formData.get("renewalTermMonths")
     };
 
     const response = await fetch("/api/contracts", {
@@ -76,6 +79,18 @@ export function ContractForm() {
           <div className="grid gap-2">
             <Label htmlFor="total">Valor total</Label>
             <Input id="total" name="totalValue" type="number" placeholder="0.00" required />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="initialTermMonths">Prazo inicial</Label>
+            <Input id="initialTermMonths" name="initialTermMonths" type="number" defaultValue={12} required />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="renewalCount">Renovacoes</Label>
+            <Input id="renewalCount" name="renewalCount" type="number" defaultValue={9} required />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="renewalTermMonths">Prazo por renovacao</Label>
+            <Input id="renewalTermMonths" name="renewalTermMonths" type="number" defaultValue={12} required />
           </div>
           <div className="grid gap-2">
             <Label>Status</Label>

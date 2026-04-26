@@ -10,7 +10,10 @@ export const contracts: Contract[] = [
     startDate: "2026-01-01",
     endDate: "2026-12-31",
     status: "active",
-    totalValue: 1850000
+    totalValue: 1850000,
+    initialTermMonths: 12,
+    renewalCount: 9,
+    renewalTermMonths: 12
   },
   {
     id: "22222222-2222-4222-8222-222222222222",
@@ -21,7 +24,10 @@ export const contracts: Contract[] = [
     startDate: "2026-02-01",
     endDate: "2027-01-31",
     status: "active",
-    totalValue: 1420000
+    totalValue: 1420000,
+    initialTermMonths: 12,
+    renewalCount: 9,
+    renewalTermMonths: 12
   },
   {
     id: "33333333-3333-4333-8333-333333333333",
@@ -32,7 +38,10 @@ export const contracts: Contract[] = [
     startDate: "2026-03-01",
     endDate: "2027-02-28",
     status: "pending",
-    totalValue: 980000
+    totalValue: 980000,
+    initialTermMonths: 12,
+    renewalCount: 9,
+    renewalTermMonths: 12
   }
 ];
 

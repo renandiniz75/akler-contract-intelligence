@@ -175,7 +175,10 @@ export function EditContractRecord({ contract }: { contract: Contract }) {
       startDate: formData.get("startDate"),
       endDate: formData.get("endDate"),
       totalValue: formData.get("totalValue"),
-      status: formData.get("status")
+      status: formData.get("status"),
+      initialTermMonths: formData.get("initialTermMonths"),
+      renewalCount: formData.get("renewalCount"),
+      renewalTermMonths: formData.get("renewalTermMonths")
     };
 
     const response = await fetch(endpoint, {
@@ -249,6 +252,32 @@ export function EditContractRecord({ contract }: { contract: Contract }) {
                   ))}
                 </SelectContent>
               </Select>
+            </div>
+          </div>
+          <div className="grid grid-cols-3 gap-2">
+            <div className="grid gap-1">
+              <Label htmlFor={`${contract.id}-initialTermMonths`}>Prazo inicial</Label>
+              <Input
+                id={`${contract.id}-initialTermMonths`}
+                name="initialTermMonths"
+                type="number"
+                defaultValue={contract.initialTermMonths}
+                required
+              />
+            </div>
+            <div className="grid gap-1">
+              <Label htmlFor={`${contract.id}-renewalCount`}>Renovacoes</Label>
+              <Input id={`${contract.id}-renewalCount`} name="renewalCount" type="number" defaultValue={contract.renewalCount} required />
+            </div>
+            <div className="grid gap-1">
+              <Label htmlFor={`${contract.id}-renewalTermMonths`}>Meses/ren.</Label>
+              <Input
+                id={`${contract.id}-renewalTermMonths`}
+                name="renewalTermMonths"
+                type="number"
+                defaultValue={contract.renewalTermMonths}
+                required
+              />
             </div>
           </div>
           <div className="flex items-center gap-2">

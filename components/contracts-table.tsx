@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { EditContractRecord } from "@/components/record-actions";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { formatCurrency } from "@/lib/calculations";
+import { getContractPotentialMonths } from "@/lib/projections";
 import type { Contract } from "@/lib/types";
 
 const statusLabel = {
@@ -20,6 +21,7 @@ export function ContractsTable({ contracts }: { contracts: Contract[] }) {
           <TableHead>Municipio</TableHead>
           <TableHead>Orgao</TableHead>
           <TableHead>Status</TableHead>
+          <TableHead>Renovacoes</TableHead>
           <TableHead className="text-right">Valor</TableHead>
           <TableHead className="text-right">Acoes</TableHead>
         </TableRow>
@@ -35,6 +37,10 @@ export function ContractsTable({ contracts }: { contracts: Contract[] }) {
             <TableCell>{contract.agency}</TableCell>
             <TableCell>
               <Badge>{statusLabel[contract.status]}</Badge>
+            </TableCell>
+            <TableCell>
+              <div className="font-medium">{contract.renewalCount} x {contract.renewalTermMonths}m</div>
+              <div className="text-xs text-muted-foreground">{getContractPotentialMonths(contract)} meses potenciais</div>
             </TableCell>
             <TableCell className="text-right font-medium">{formatCurrency(contract.totalValue)}</TableCell>
             <TableCell className="text-right">

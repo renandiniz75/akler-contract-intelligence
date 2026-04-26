@@ -46,7 +46,10 @@ export async function getAppData(): Promise<AppData> {
         startDate: contract.startDate,
         endDate: contract.endDate,
         status: contract.status,
-        totalValue: toNumber(contract.totalValue)
+        totalValue: toNumber(contract.totalValue),
+        initialTermMonths: contract.initialTermMonths,
+        renewalCount: contract.renewalCount,
+        renewalTermMonths: contract.renewalTermMonths
       })),
       contractItems: itemRows.map((item) => ({
         id: item.id,

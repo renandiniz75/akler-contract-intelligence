@@ -93,6 +93,10 @@ export function buildDashboardSummary(
     totalCapex,
     totalOpex,
     grossMargin: calculateMargin(projectedRevenue + realizedRevenue, totalCapex + totalOpex),
-    paybackMonth: calculatePayback(cashFlow)
+    paybackMonth: calculatePayback(cashFlow),
+    optimisticMonths: Math.max(
+      ...contracts.map((contract) => contract.initialTermMonths + contract.renewalCount * contract.renewalTermMonths),
+      0
+    )
   };
 }

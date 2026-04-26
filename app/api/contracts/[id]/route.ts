@@ -12,7 +12,10 @@ const updateSchema = z.object({
   startDate: z.string().min(10).optional(),
   endDate: z.string().min(10).optional(),
   status: z.enum(["active", "pending", "completed", "at_risk"]).optional(),
-  totalValue: z.coerce.number().nonnegative().optional()
+  totalValue: z.coerce.number().nonnegative().optional(),
+  initialTermMonths: z.coerce.number().int().positive().optional(),
+  renewalCount: z.coerce.number().int().nonnegative().optional(),
+  renewalTermMonths: z.coerce.number().int().positive().optional()
 });
 
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {

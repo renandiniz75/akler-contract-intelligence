@@ -12,6 +12,9 @@ export type Contract = {
   endDate: string;
   status: ContractStatus;
   totalValue: number;
+  initialTermMonths: number;
+  renewalCount: number;
+  renewalTermMonths: number;
 };
 
 export type ContractItem = {
@@ -47,6 +50,7 @@ export type Revenue = {
   status: RevenueStatus;
   description: string;
   amount: number;
+  generated?: boolean;
 };
 
 export type CashFlowMonth = {
@@ -68,4 +72,5 @@ export type DashboardSummary = {
   totalOpex: number;
   grossMargin: number;
   paybackMonth: string | null;
+  optimisticMonths: number;
 };
