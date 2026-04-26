@@ -1,4 +1,4 @@
-import type { Contract, Revenue } from "@/lib/types";
+import type { Capex, Contract, ContractItem, Revenue } from "@/lib/types";
 
 function addMonths(date: Date, months: number) {
   const next = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), 1));
@@ -42,6 +42,39 @@ export function buildOptimisticRevenueProjection(contracts: Contract[], revenue:
   });
 
   return [...revenue, ...generatedRevenue];
+}
+
+export function buildProjectedInvestmentCapex(contracts: Contract[], contractItems: ContractItem[], capex: Capex[]): Capex[] {
+  const generatedCapex = contractItems.flatMap((item) => {
+    if (item.estimatedCost <= 0 || item.paymentSource !== "own_cash") {
+      return [];
+    }
+
+    const contract = contracts.find((candidate) => candidate.id === item.contractId);
+
+    if (!contract) {
+      return [];
+    }
+
+    const startDate = new Date(`${contract.startDate}T00:00:00.000Z`);
+    const installmentAmount = item.estimatedCost / item.installmentCount;
+
+    return Array.from({ length: item.installmentCount }, (_, index): Capex => {
+      const month = monthKey(addMonths(startDate, item.paymentStartOffsetMonths + index));
+
+      return {
+        id: `projected-investment-${item.id}-${month}`,
+        contractId: item.contractId,
+        month,
+        category: item.investmentCategory,
+        description: `Investimento previsto: ${item.description}`,
+        amount: installmentAmount,
+        generated: true
+      };
+    });
+  });
+
+  return [...capex, ...generatedCapex];
 }
 
 export function getOptimisticHorizonMonths(contracts: Contract[]) {

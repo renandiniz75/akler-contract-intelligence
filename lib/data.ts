@@ -58,7 +58,12 @@ export async function getAppData(): Promise<AppData> {
         contractId: item.contractId,
         description: item.description,
         quantity: item.quantity,
-        unitPrice: toNumber(item.unitPrice)
+        unitPrice: toNumber(item.unitPrice),
+        investmentCategory: item.investmentCategory,
+        estimatedCost: toNumber(item.estimatedCost),
+        paymentStartOffsetMonths: item.paymentStartOffsetMonths,
+        installmentCount: item.installmentCount,
+        paymentSource: item.paymentSource
       })),
       capex: capexRows.map((item) => ({
         id: item.id,

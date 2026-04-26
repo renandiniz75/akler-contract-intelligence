@@ -4,21 +4,22 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { calculateCashFlow, formatCurrency } from "@/lib/calculations";
 import { getAppData } from "@/lib/data";
-import { buildOptimisticRevenueProjection, getOptimisticHorizonMonths } from "@/lib/projections";
+import { buildOptimisticRevenueProjection, buildProjectedInvestmentCapex, getOptimisticHorizonMonths } from "@/lib/projections";
 
 export const dynamic = "force-dynamic";
 
 export default async function CashFlowPage() {
-  const { capex, contracts, opex, revenue } = await getAppData();
+  const { capex, contractItems, contracts, opex, revenue } = await getAppData();
   const optimisticRevenue = buildOptimisticRevenueProjection(contracts, revenue);
-  const cashFlow = calculateCashFlow(optimisticRevenue, capex, opex);
+  const projectedCapex = buildProjectedInvestmentCapex(contracts, contractItems, capex);
+  const cashFlow = calculateCashFlow(optimisticRevenue, projectedCapex, opex);
   const horizonMonths = getOptimisticHorizonMonths(contracts);
 
   return (
     <>
       <PageHeader
         title="Fluxo de caixa"
-        description={`Cenario otimista com receitas projetadas ate ${horizonMonths} meses, considerando prazo inicial e renovações contratuais.`}
+        description={`Cenario otimista com receitas e investimentos parcelados projetados ate ${horizonMonths} meses, considerando prazo inicial e renovações contratuais.`}
       />
       <Card>
         <CardHeader>

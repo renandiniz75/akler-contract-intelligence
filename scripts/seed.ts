@@ -39,7 +39,12 @@ async function main() {
       contractId: contractIdMap.get(item.contractId)!,
       description: item.description,
       quantity: item.quantity,
-      unitPrice: item.unitPrice.toString()
+      unitPrice: item.unitPrice.toString(),
+      investmentCategory: item.investmentCategory,
+      estimatedCost: item.estimatedCost.toString(),
+      paymentStartOffsetMonths: item.paymentStartOffsetMonths,
+      installmentCount: item.installmentCount,
+      paymentSource: item.paymentSource
     }))
   );
 

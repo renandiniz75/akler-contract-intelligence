@@ -26,6 +26,11 @@ const revenueStatuses: Array<{ value: RevenueStatus; label: string }> = [
   { value: "realized", label: "Realizada" }
 ];
 
+const paymentSources = [
+  { value: "own_cash", label: "Caixa proprio" },
+  { value: "third_party", label: "Terceiros" }
+] as const;
+
 const contractStatuses: Array<{ value: ContractStatus; label: string }> = [
   { value: "pending", label: "Pendente" },
   { value: "active", label: "Ativo" },
@@ -170,7 +175,12 @@ export function EditContractItemRecord({ item }: { item: ContractItem }) {
     const payload = {
       description: formData.get("description"),
       quantity: formData.get("quantity"),
-      unitPrice: formData.get("unitPrice")
+      unitPrice: formData.get("unitPrice"),
+      investmentCategory: formData.get("investmentCategory"),
+      estimatedCost: formData.get("estimatedCost"),
+      paymentStartOffsetMonths: formData.get("paymentStartOffsetMonths"),
+      installmentCount: formData.get("installmentCount"),
+      paymentSource: formData.get("paymentSource")
     };
 
     const response = await fetch(endpoint, {
@@ -211,6 +221,60 @@ export function EditContractItemRecord({ item }: { item: ContractItem }) {
             <div className="grid gap-1">
               <Label htmlFor={`${item.id}-unit-price`}>Unitario</Label>
               <Input id={`${item.id}-unit-price`} name="unitPrice" type="number" min="0" step="0.01" defaultValue={item.unitPrice} required />
+            </div>
+          </div>
+          <div className="grid gap-1 border-t pt-3">
+            <Label htmlFor={`${item.id}-estimated-cost`}>Investimento estimado</Label>
+            <Input id={`${item.id}-estimated-cost`} name="estimatedCost" type="number" min="0" step="0.01" defaultValue={item.estimatedCost} required />
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            <div className="grid gap-1">
+              <Label>Categoria</Label>
+              <Select name="investmentCategory" defaultValue={item.investmentCategory}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {expenseCategories.map((category) => (
+                    <SelectItem key={category.value} value={category.value}>
+                      {category.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="grid gap-1">
+              <Label>Fonte</Label>
+              <Select name="paymentSource" defaultValue={item.paymentSource}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {paymentSources.map((source) => (
+                    <SelectItem key={source.value} value={source.value}>
+                      {source.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            <div className="grid gap-1">
+              <Label htmlFor={`${item.id}-payment-start`}>Inicio em meses</Label>
+              <Input
+                id={`${item.id}-payment-start`}
+                name="paymentStartOffsetMonths"
+                type="number"
+                min="0"
+                step="1"
+                defaultValue={item.paymentStartOffsetMonths}
+                required
+              />
+            </div>
+            <div className="grid gap-1">
+              <Label htmlFor={`${item.id}-installments`}>Parcelas</Label>
+              <Input id={`${item.id}-installments`} name="installmentCount" type="number" min="1" step="1" defaultValue={item.installmentCount} required />
             </div>
           </div>
           <div className="flex items-center gap-2">

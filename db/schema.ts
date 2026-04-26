@@ -15,6 +15,7 @@ import { relations } from "drizzle-orm";
 
 export const contractStatusEnum = pgEnum("contract_status", ["active", "pending", "completed", "at_risk"]);
 export const revenueStatusEnum = pgEnum("revenue_status", ["projected", "realized"]);
+export const paymentSourceEnum = pgEnum("payment_source", ["own_cash", "third_party"]);
 export const expenseCategoryEnum = pgEnum("expense_category", [
   "labor",
   "materials",
@@ -52,6 +53,11 @@ export const contractItems = pgTable(
     description: text("description").notNull(),
     quantity: integer("quantity").notNull(),
     unitPrice: numeric("unit_price", { precision: 14, scale: 2 }).notNull(),
+    investmentCategory: expenseCategoryEnum("investment_category").notNull().default("equipment"),
+    estimatedCost: numeric("estimated_cost", { precision: 14, scale: 2 }).notNull().default("0"),
+    paymentStartOffsetMonths: integer("payment_start_offset_months").notNull().default(0),
+    installmentCount: integer("installment_count").notNull().default(1),
+    paymentSource: paymentSourceEnum("payment_source").notNull().default("own_cash"),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull()
   },
   (table) => ({

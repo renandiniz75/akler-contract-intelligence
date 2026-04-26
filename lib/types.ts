@@ -2,6 +2,7 @@ export type ContractStatus = "active" | "pending" | "completed" | "at_risk";
 export type RevenueStatus = "projected" | "realized";
 export type ExpenseCategory = "labor" | "materials" | "equipment" | "software" | "logistics" | "overhead";
 export type ContractDocumentType = "contract" | "amendment" | "measurement" | "invoice" | "other";
+export type PaymentSource = "own_cash" | "third_party";
 
 export type Contract = {
   id: string;
@@ -24,6 +25,11 @@ export type ContractItem = {
   description: string;
   quantity: number;
   unitPrice: number;
+  investmentCategory: ExpenseCategory;
+  estimatedCost: number;
+  paymentStartOffsetMonths: number;
+  installmentCount: number;
+  paymentSource: PaymentSource;
 };
 
 export type Capex = {
@@ -33,6 +39,7 @@ export type Capex = {
   category: ExpenseCategory;
   description: string;
   amount: number;
+  generated?: boolean;
 };
 
 export type Opex = {

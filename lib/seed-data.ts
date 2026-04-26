@@ -46,15 +46,114 @@ export const contracts: Contract[] = [
 ];
 
 export const contractItems: ContractItem[] = [
-  { id: "item-1", contractId: "11111111-1111-4111-8111-111111111111", description: "Implantacao da plataforma", quantity: 1, unitPrice: 220000 },
-  { id: "item-2", contractId: "11111111-1111-4111-8111-111111111111", description: "Monitoramento mensal de contratos", quantity: 12, unitPrice: 95000 },
-  { id: "item-3", contractId: "11111111-1111-4111-8111-111111111111", description: "Relatorios executivos e comite mensal", quantity: 12, unitPrice: 41000 },
-  { id: "item-4", contractId: "22222222-2222-4222-8222-222222222222", description: "Implantacao e integracao de bases", quantity: 1, unitPrice: 180000 },
-  { id: "item-5", contractId: "22222222-2222-4222-8222-222222222222", description: "Gestao de CAPEX/OPEX", quantity: 12, unitPrice: 78000 },
-  { id: "item-6", contractId: "22222222-2222-4222-8222-222222222222", description: "Suporte executivo", quantity: 12, unitPrice: 25333.33 },
-  { id: "item-7", contractId: "33333333-3333-4333-8333-333333333333", description: "Setup operacional", quantity: 1, unitPrice: 140000 },
-  { id: "item-8", contractId: "33333333-3333-4333-8333-333333333333", description: "Auditoria de medicoes", quantity: 10, unitPrice: 62000 },
-  { id: "item-9", contractId: "33333333-3333-4333-8333-333333333333", description: "Painel de indicadores", quantity: 10, unitPrice: 22000 }
+  {
+    id: "item-1",
+    contractId: "11111111-1111-4111-8111-111111111111",
+    description: "Implantacao da plataforma",
+    quantity: 1,
+    unitPrice: 220000,
+    investmentCategory: "software",
+    estimatedCost: 120000,
+    paymentStartOffsetMonths: 0,
+    installmentCount: 2,
+    paymentSource: "own_cash"
+  },
+  {
+    id: "item-2",
+    contractId: "11111111-1111-4111-8111-111111111111",
+    description: "Monitoramento mensal de contratos",
+    quantity: 12,
+    unitPrice: 95000,
+    investmentCategory: "equipment",
+    estimatedCost: 260000,
+    paymentStartOffsetMonths: 2,
+    installmentCount: 5,
+    paymentSource: "own_cash"
+  },
+  {
+    id: "item-3",
+    contractId: "11111111-1111-4111-8111-111111111111",
+    description: "Relatorios executivos e comite mensal",
+    quantity: 12,
+    unitPrice: 41000,
+    investmentCategory: "labor",
+    estimatedCost: 0,
+    paymentStartOffsetMonths: 0,
+    installmentCount: 1,
+    paymentSource: "own_cash"
+  },
+  {
+    id: "item-4",
+    contractId: "22222222-2222-4222-8222-222222222222",
+    description: "Implantacao e integracao de bases",
+    quantity: 1,
+    unitPrice: 180000,
+    investmentCategory: "software",
+    estimatedCost: 95000,
+    paymentStartOffsetMonths: 1,
+    installmentCount: 3,
+    paymentSource: "own_cash"
+  },
+  {
+    id: "item-5",
+    contractId: "22222222-2222-4222-8222-222222222222",
+    description: "Cameras, servidores e infraestrutura",
+    quantity: 1,
+    unitPrice: 936000,
+    investmentCategory: "equipment",
+    estimatedCost: 2000000,
+    paymentStartOffsetMonths: 3,
+    installmentCount: 5,
+    paymentSource: "own_cash"
+  },
+  {
+    id: "item-6",
+    contractId: "22222222-2222-4222-8222-222222222222",
+    description: "Suporte executivo",
+    quantity: 12,
+    unitPrice: 25333.33,
+    investmentCategory: "labor",
+    estimatedCost: 0,
+    paymentStartOffsetMonths: 0,
+    installmentCount: 1,
+    paymentSource: "own_cash"
+  },
+  {
+    id: "item-7",
+    contractId: "33333333-3333-4333-8333-333333333333",
+    description: "Setup operacional",
+    quantity: 1,
+    unitPrice: 140000,
+    investmentCategory: "software",
+    estimatedCost: 88000,
+    paymentStartOffsetMonths: 0,
+    installmentCount: 2,
+    paymentSource: "own_cash"
+  },
+  {
+    id: "item-8",
+    contractId: "33333333-3333-4333-8333-333333333333",
+    description: "Auditoria de medicoes",
+    quantity: 10,
+    unitPrice: 62000,
+    investmentCategory: "labor",
+    estimatedCost: 0,
+    paymentStartOffsetMonths: 0,
+    installmentCount: 1,
+    paymentSource: "own_cash"
+  },
+  {
+    id: "item-9",
+    contractId: "33333333-3333-4333-8333-333333333333",
+    description: "Painel de indicadores",
+    quantity: 10,
+    unitPrice: 22000,
+    investmentCategory: "software",
+    estimatedCost: 50000,
+    paymentStartOffsetMonths: 1,
+    installmentCount: 2,
+    paymentSource: "third_party"
+  }
 ];
 
 export const capex: Capex[] = [

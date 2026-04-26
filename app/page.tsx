@@ -7,21 +7,22 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ContractsTable } from "@/components/contracts-table";
 import { buildDashboardSummary, calculateCashFlow, formatCurrency, formatPercent } from "@/lib/calculations";
 import { getAppData } from "@/lib/data";
-import { buildOptimisticRevenueProjection } from "@/lib/projections";
+import { buildOptimisticRevenueProjection, buildProjectedInvestmentCapex } from "@/lib/projections";
 
 export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
-  const { capex, contracts, opex, revenue, source } = await getAppData();
+  const { capex, contractItems, contracts, opex, revenue, source } = await getAppData();
   const optimisticRevenue = buildOptimisticRevenueProjection(contracts, revenue);
-  const summary = buildDashboardSummary(contracts, optimisticRevenue, capex, opex);
-  const cashFlow = calculateCashFlow(optimisticRevenue, capex, opex);
+  const projectedCapex = buildProjectedInvestmentCapex(contracts, contractItems, capex);
+  const summary = buildDashboardSummary(contracts, optimisticRevenue, projectedCapex, opex);
+  const cashFlow = calculateCashFlow(optimisticRevenue, projectedCapex, opex);
 
   return (
     <>
       <PageHeader
         title="Dashboard executivo"
-        description={`Cenario otimista com renovações contratuais projetadas no fluxo de caixa. Fonte: ${source === "database" ? "PostgreSQL" : "seed local"}.`}
+        description={`Cenario otimista com renovações e investimentos parcelados projetados no fluxo de caixa. Fonte: ${source === "database" ? "PostgreSQL" : "seed local"}.`}
       />
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
         <StatCard title="Contratado" value={formatCurrency(summary.totalContracted)} detail="Valor total em carteira" icon={Landmark} />

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, Banknote, FileText, Percent, Timer } from "lucide-react";
+import { ArrowLeft, Banknote, FileText, Percent } from "lucide-react";
 import { CashFlowChart } from "@/components/dashboard/cash-flow-chart";
 import { ContractItemForm } from "@/components/forms/contract-item-form";
 import { DocumentForm } from "@/components/forms/document-form";
@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { buildDashboardSummary, calculateCashFlow, formatCurrency, formatPercent } from "@/lib/calculations";
 import { getAppData } from "@/lib/data";
-import { buildOptimisticRevenueProjection, getContractPotentialMonths } from "@/lib/projections";
+import { buildOptimisticRevenueProjection, buildProjectedInvestmentCapex } from "@/lib/projections";
 
 export const dynamic = "force-dynamic";
 
@@ -21,6 +21,20 @@ const documentTypeLabel = {
   measurement: "Medicao",
   invoice: "Nota fiscal",
   other: "Outro"
+};
+
+const categoryLabel = {
+  labor: "Equipe",
+  materials: "Materiais",
+  equipment: "Equipamentos",
+  software: "Software",
+  logistics: "Logistica",
+  overhead: "Overhead"
+};
+
+const paymentSourceLabel = {
+  own_cash: "Caixa proprio",
+  third_party: "Terceiros"
 };
 
 export default async function ContractDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -48,9 +62,13 @@ export default async function ContractDetailPage({ params }: { params: Promise<{
   const revenue = data.revenue.filter((item) => item.contractId === id);
   const documents = data.contractDocuments.filter((item) => item.contractId === id);
   const optimisticRevenue = buildOptimisticRevenueProjection([contract], revenue);
-  const cashFlow = calculateCashFlow(optimisticRevenue, capex, opex);
-  const summary = buildDashboardSummary([contract], optimisticRevenue, capex, opex);
+  const projectedCapex = buildProjectedInvestmentCapex([contract], contractItems, capex);
+  const cashFlow = calculateCashFlow(optimisticRevenue, projectedCapex, opex);
+  const summary = buildDashboardSummary([contract], optimisticRevenue, projectedCapex, opex);
   const budgetedItems = contractItems.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0);
+  const plannedInvestment = contractItems
+    .filter((item) => item.paymentSource === "own_cash")
+    .reduce((sum, item) => sum + item.estimatedCost, 0);
   const realizedRevenue = revenue.filter((item) => item.status === "realized").reduce((sum, item) => sum + item.amount, 0);
 
   return (
@@ -71,9 +89,9 @@ export default async function ContractDetailPage({ params }: { params: Promise<{
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
         <StatCard title="Contrato" value={formatCurrency(contract.totalValue)} detail="Valor anual/base" icon={FileText} />
         <StatCard title="Itens orcados" value={formatCurrency(budgetedItems)} detail={`${contractItems.length} itens contratuais`} icon={Banknote} />
+        <StatCard title="Investimento" value={formatCurrency(plannedInvestment)} detail="CAPEX projetado do item" icon={Banknote} />
         <StatCard title="Realizado" value={formatCurrency(realizedRevenue)} detail="Receita realizada lancada" icon={Banknote} />
         <StatCard title="Margem otimista" value={formatPercent(summary.grossMargin)} detail="Com renovacoes projetadas" icon={Percent} />
-        <StatCard title="Horizonte" value={`${getContractPotentialMonths(contract)} meses`} detail={`${contract.renewalCount} renovacoes`} icon={Timer} />
       </div>
 
       <div className="mt-6 grid gap-4 xl:grid-cols-[1.5fr_1fr]">
@@ -123,6 +141,8 @@ export default async function ContractDetailPage({ params }: { params: Promise<{
                   <TableHead className="text-right">Qtd.</TableHead>
                   <TableHead className="text-right">Unitario</TableHead>
                   <TableHead className="text-right">Total</TableHead>
+                  <TableHead className="text-right">Investimento</TableHead>
+                  <TableHead>Pagamento</TableHead>
                   <TableHead className="text-right">Acoes</TableHead>
                 </TableRow>
               </TableHeader>
@@ -133,6 +153,11 @@ export default async function ContractDetailPage({ params }: { params: Promise<{
                     <TableCell className="text-right">{item.quantity}</TableCell>
                     <TableCell className="text-right">{formatCurrency(item.unitPrice)}</TableCell>
                     <TableCell className="text-right font-medium">{formatCurrency(item.quantity * item.unitPrice)}</TableCell>
+                    <TableCell className="text-right">{formatCurrency(item.estimatedCost)}</TableCell>
+                    <TableCell>
+                      {categoryLabel[item.investmentCategory]} · {paymentSourceLabel[item.paymentSource]} · mes {item.paymentStartOffsetMonths} em{" "}
+                      {item.installmentCount}x
+                    </TableCell>
                     <TableCell className="text-right">
                       <EditContractItemRecord item={item} />
                     </TableCell>
@@ -140,7 +165,7 @@ export default async function ContractDetailPage({ params }: { params: Promise<{
                 ))}
                 {contractItems.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={5} className="py-8 text-center text-sm text-muted-foreground">
+                    <TableCell colSpan={7} className="py-8 text-center text-sm text-muted-foreground">
                       Nenhum item cadastrado para este contrato.
                     </TableCell>
                   </TableRow>
@@ -154,7 +179,7 @@ export default async function ContractDetailPage({ params }: { params: Promise<{
 
       <div className="mt-6 grid gap-4 xl:grid-cols-3">
         <FinancialMiniTable title="Receitas" rows={revenue} valueLabel="Status" />
-        <FinancialMiniTable title="CAPEX" rows={capex} valueLabel="Categoria" />
+        <FinancialMiniTable title="CAPEX" rows={projectedCapex} valueLabel="Categoria" />
         <FinancialMiniTable title="OPEX" rows={opex} valueLabel="Categoria" />
       </div>
 
