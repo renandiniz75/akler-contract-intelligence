@@ -27,9 +27,13 @@ export type CapacityScenarioResult = {
   totalInvestment: number;
   monthlyRevenue: number;
   totalRevenue: number;
+  totalFixedBurn: number;
   lowestCash: number;
+  lowestCashMonth: number;
   requiredCapital: number;
   paybackMonth: number | null;
+  firstSupplierPaymentMonth: number | null;
+  firstRevenueMonth: number | null;
   feasible: boolean;
   bufferBreached: boolean;
   months: CapacityScenarioMonth[];
@@ -51,9 +55,13 @@ export function simulateCapacityScenario(input: CapacityScenarioInput): Capacity
   const investmentInstallment = totalInvestment / input.supplierInstallments;
   const monthlyRevenue = input.units * input.revenuePerUnitMonthly;
   const totalRevenue = monthlyRevenue * input.revenueDurationMonths;
+  const totalFixedBurn = input.monthlyFixedBurn * horizon;
   let cumulativeCash = input.initialCash;
   let lowestCash = cumulativeCash;
+  let lowestCashMonth = 0;
   let paybackMonth: number | null = null;
+  let firstSupplierPaymentMonth: number | null = null;
+  let firstRevenueMonth: number | null = null;
 
   const months = Array.from({ length: horizon }, (_, index): CapacityScenarioMonth => {
     const month = index + 1;
@@ -65,7 +73,19 @@ export function simulateCapacityScenario(input: CapacityScenarioInput): Capacity
     const net = newRevenue - investmentOutflow - fixedBurn;
 
     cumulativeCash += net;
-    lowestCash = Math.min(lowestCash, cumulativeCash);
+
+    if (paysSupplier && firstSupplierPaymentMonth === null) {
+      firstSupplierPaymentMonth = month;
+    }
+
+    if (receivesRevenue && firstRevenueMonth === null) {
+      firstRevenueMonth = month;
+    }
+
+    if (cumulativeCash < lowestCash) {
+      lowestCash = cumulativeCash;
+      lowestCashMonth = month;
+    }
 
     if (paybackMonth === null && cumulativeCash >= input.initialCash && month > supplierStartOffset) {
       paybackMonth = month;
@@ -85,9 +105,13 @@ export function simulateCapacityScenario(input: CapacityScenarioInput): Capacity
     totalInvestment,
     monthlyRevenue,
     totalRevenue,
+    totalFixedBurn,
     lowestCash,
-    requiredCapital: Math.max(0, -lowestCash),
+    lowestCashMonth,
+    requiredCapital: Math.max(0, input.minimumCashBuffer - lowestCash),
     paybackMonth,
+    firstSupplierPaymentMonth,
+    firstRevenueMonth,
     feasible: lowestCash >= input.minimumCashBuffer,
     bufferBreached: lowestCash < input.minimumCashBuffer,
     months
