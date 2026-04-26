@@ -1,215 +1,342 @@
 import type { Capex, Contract, ContractDocument, ContractItem, Opex, Revenue } from "@/lib/types";
 
+const defaultAdjustmentRate = 4;
+
+function contract({
+  id,
+  city,
+  number,
+  monthlyValue,
+  implementationValue,
+  signedAt,
+  adjustmentBase,
+  pendingMonths,
+  expiresAt,
+  sourceCompany
+}: {
+  id: string;
+  city: string;
+  number: string;
+  monthlyValue: number;
+  implementationValue: number;
+  signedAt: string;
+  adjustmentBase: string;
+  pendingMonths: number;
+  expiresAt: string;
+  sourceCompany: "AKLER" | "STARTID";
+}): Contract {
+  return {
+    id,
+    city,
+    agency: city,
+    number,
+    object: `Contrato ${sourceCompany} consolidado na Akler. Valor mensal de referencia: ${monthlyValue.toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL"
+    })}${implementationValue > 0 ? `; implantacao: ${implementationValue.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}` : ""}. Data base de reajuste: ${adjustmentBase}. Fonte: Fluxo_Caixa_Gerencial_2026-04-24.xlsx.`,
+    startDate: signedAt,
+    endDate: expiresAt,
+    status: pendingMonths > 0 ? "active" : "completed",
+    totalValue: monthlyValue * 12,
+    initialTermMonths: 12,
+    renewalCount: pendingMonths > 12 ? Math.max(Math.ceil((pendingMonths - 12) / 12), 0) : 0,
+    renewalTermMonths: 12,
+    revenueProjectionMonths: pendingMonths,
+    revenueAdjustmentRate: defaultAdjustmentRate,
+    revenueAdjustmentFrequencyMonths: 12
+  };
+}
+
 export const contracts: Contract[] = [
-  {
-    id: "11111111-1111-4111-8111-111111111111",
+  contract({
+    id: "e8c58b9d-4eb8-50c0-9e81-333fc9d321a9",
     city: "Linhares",
-    agency: "Prefeitura Municipal de Linhares",
-    number: "AKL-2026-001",
-    object: "Inteligencia contratual, auditoria de medicoes e monitoramento CAPEX/OPEX",
-    startDate: "2026-01-01",
-    endDate: "2026-12-31",
-    status: "active",
-    totalValue: 1850000,
-    initialTermMonths: 12,
-    renewalCount: 9,
-    renewalTermMonths: 12,
-    revenueProjectionMonths: 120,
-    revenueAdjustmentRate: 4.5,
-    revenueAdjustmentFrequencyMonths: 12
-  },
-  {
-    id: "22222222-2222-4222-8222-222222222222",
+    number: "356/2024",
+    monthlyValue: 536050,
+    implementationValue: 0,
+    signedAt: "2024-10-15",
+    adjustmentBase: "2025-10-15",
+    pendingMonths: 101,
+    expiresAt: "2034-08-24",
+    sourceCompany: "AKLER"
+  }),
+  contract({
+    id: "fcbdb742-2071-5da3-b467-901724322e82",
     city: "Aracruz",
-    agency: "Prefeitura Municipal de Aracruz",
-    number: "AKL-2026-002",
-    object: "Gestao integrada de contratos publicos e previsao de fluxo de caixa",
-    startDate: "2026-02-01",
-    endDate: "2027-01-31",
-    status: "active",
-    totalValue: 1420000,
-    initialTermMonths: 12,
-    renewalCount: 9,
-    renewalTermMonths: 12,
-    revenueProjectionMonths: 120,
-    revenueAdjustmentRate: 4,
-    revenueAdjustmentFrequencyMonths: 12
-  },
-  {
-    id: "33333333-3333-4333-8333-333333333333",
+    number: "013/2025",
+    monthlyValue: 529100,
+    implementationValue: 0,
+    signedAt: "2025-02-10",
+    adjustmentBase: "2026-02-10",
+    pendingMonths: 105,
+    expiresAt: "2034-12-20",
+    sourceCompany: "AKLER"
+  }),
+  contract({
+    id: "10eb7d4e-57a3-5653-ae84-8250a9eec5c7",
+    city: "Marataizes",
+    number: "0192/2024",
+    monthlyValue: 570630,
+    implementationValue: 0,
+    signedAt: "2024-09-20",
+    adjustmentBase: "2025-09-20",
+    pendingMonths: 101,
+    expiresAt: "2034-07-31",
+    sourceCompany: "AKLER"
+  }),
+  contract({
+    id: "fb485a6a-25b1-511e-92aa-0b2d141155ff",
     city: "Itapemirim",
-    agency: "Prefeitura Municipal de Itapemirim",
-    number: "AKL-2026-003",
-    object: "Controle executivo de contratos, receitas realizadas e despesas operacionais",
-    startDate: "2026-03-01",
-    endDate: "2027-02-28",
-    status: "pending",
-    totalValue: 980000,
-    initialTermMonths: 12,
-    renewalCount: 9,
-    renewalTermMonths: 12,
-    revenueProjectionMonths: 120,
-    revenueAdjustmentRate: 3.8,
-    revenueAdjustmentFrequencyMonths: 12
-  }
+    number: "529/2024",
+    monthlyValue: 527650,
+    implementationValue: 0,
+    signedAt: "2024-11-05",
+    adjustmentBase: "2025-11-05",
+    pendingMonths: 102,
+    expiresAt: "2034-09-14",
+    sourceCompany: "AKLER"
+  }),
+  contract({
+    id: "4a08ff67-9495-5e8f-ad22-9ee24d4659e3",
+    city: "CREA-ES",
+    number: "001/2025",
+    monthlyValue: 0,
+    implementationValue: 0,
+    signedAt: "2025-05-05",
+    adjustmentBase: "2026-06-05",
+    pendingMonths: 108,
+    expiresAt: "2035-03-14",
+    sourceCompany: "AKLER"
+  }),
+  contract({
+    id: "fb50882b-fe4c-5d53-bed6-a17a522d0bf6",
+    city: "CREA-ES",
+    number: "20/2025",
+    monthlyValue: 0,
+    implementationValue: 40616,
+    signedAt: "2025-05-05",
+    adjustmentBase: "2026-06-05",
+    pendingMonths: 0,
+    expiresAt: "2026-02-28",
+    sourceCompany: "AKLER"
+  }),
+  contract({
+    id: "c6717644-6809-5db6-9043-3d2a11269109",
+    city: "SEMOBI-ES",
+    number: "2025.000006.35101.01",
+    monthlyValue: 1712918.6,
+    implementationValue: 2959357.7,
+    signedAt: "2025-06-06",
+    adjustmentBase: "2026-06-06",
+    pendingMonths: 109,
+    expiresAt: "2035-04-15",
+    sourceCompany: "AKLER"
+  }),
+  contract({
+    id: "6cafa3c2-40f9-586a-8cb1-e313cd06bc62",
+    city: "TJBA",
+    number: "100/2025",
+    monthlyValue: 1198257.03,
+    implementationValue: 2263831.57,
+    signedAt: "2025-06-18",
+    adjustmentBase: "2026-06-18",
+    pendingMonths: 109,
+    expiresAt: "2035-04-27",
+    sourceCompany: "AKLER"
+  }),
+  contract({
+    id: "c5c07a6d-4ad6-53ad-b597-c06744fb5bc4",
+    city: "SEMOBI/ES",
+    number: "011/2020",
+    monthlyValue: 24000,
+    implementationValue: 0,
+    signedAt: "2020-09-30",
+    adjustmentBase: "2021-09-30",
+    pendingMonths: 0,
+    expiresAt: "2025-11-30",
+    sourceCompany: "STARTID"
+  }),
+  contract({
+    id: "aea219b4-0fb9-5dae-89e8-0cc24f4fdf61",
+    city: "SEMOBI/ES",
+    number: "003/2020",
+    monthlyValue: 174500,
+    implementationValue: 0,
+    signedAt: "2020-04-29",
+    adjustmentBase: "2021-04-29",
+    pendingMonths: 0,
+    expiresAt: "2025-11-30",
+    sourceCompany: "STARTID"
+  }),
+  contract({
+    id: "dfbbbb2a-1424-5664-a18f-ec03448d348c",
+    city: "CEASA/ES",
+    number: "005/2020",
+    monthlyValue: 28900,
+    implementationValue: 0,
+    signedAt: "2020-06-30",
+    adjustmentBase: "2021-06-30",
+    pendingMonths: 0,
+    expiresAt: "2025-11-30",
+    sourceCompany: "STARTID"
+  }),
+  contract({
+    id: "21eb2efc-27f7-59e4-9fad-462230dc623a",
+    city: "Serra/ES (SEDU)",
+    number: "146/2022",
+    monthlyValue: 187000,
+    implementationValue: 0,
+    signedAt: "2022-10-04",
+    adjustmentBase: "2023-10-04",
+    pendingMonths: 38,
+    expiresAt: "2029-01-31",
+    sourceCompany: "STARTID"
+  }),
+  contract({
+    id: "b56cd9c6-bace-5464-ad8a-ed96c8294129",
+    city: "Serra/ES (Saude)",
+    number: "024/2023",
+    monthlyValue: 46750,
+    implementationValue: 0,
+    signedAt: "2023-02-01",
+    adjustmentBase: "2024-02-01",
+    pendingMonths: 35,
+    expiresAt: "2028-10-31",
+    sourceCompany: "STARTID"
+  }),
+  contract({
+    id: "9bed5756-5c08-59b7-92b7-b2a0b085b029",
+    city: "Itapemirim/ES",
+    number: "102/2023",
+    monthlyValue: 137250,
+    implementationValue: 0,
+    signedAt: "2023-01-01",
+    adjustmentBase: "2024-01-01",
+    pendingMonths: 36,
+    expiresAt: "2028-11-30",
+    sourceCompany: "STARTID"
+  }),
+  contract({
+    id: "1c76b84c-255e-5835-b461-8cbef2962725",
+    city: "Anchieta/ES",
+    number: "071/2024",
+    monthlyValue: 150000,
+    implementationValue: 0,
+    signedAt: "2024-01-01",
+    adjustmentBase: "2025-01-01",
+    pendingMonths: 24,
+    expiresAt: "2027-11-30",
+    sourceCompany: "STARTID"
+  }),
+  contract({
+    id: "d5f7e21d-b9bc-56e6-bd1e-25881d767f7e",
+    city: "Anchieta/ES",
+    number: "001/2024",
+    monthlyValue: 103600,
+    implementationValue: 0,
+    signedAt: "2024-01-01",
+    adjustmentBase: "2025-01-01",
+    pendingMonths: 24,
+    expiresAt: "2027-11-30",
+    sourceCompany: "STARTID"
+  })
 ];
 
 export const contractItems: ContractItem[] = [
   {
-    id: "item-1",
-    contractId: "11111111-1111-4111-8111-111111111111",
-    description: "Implantacao da plataforma",
-    quantity: 1,
-    unitPrice: 220000,
-    investmentCategory: "software",
-    estimatedCost: 120000,
-    paymentStartOffsetMonths: 0,
-    installmentCount: 2,
-    paymentSource: "own_cash"
-  },
-  {
-    id: "item-2",
-    contractId: "11111111-1111-4111-8111-111111111111",
-    description: "Monitoramento mensal de contratos",
-    quantity: 12,
-    unitPrice: 95000,
+    id: "item-linhares-ptz",
+    contractId: "e8c58b9d-4eb8-50c0-9e81-333fc9d321a9",
+    description: "Ponto de videomonitoramento - camera IP PTZ",
+    quantity: 720,
+    unitPrice: 5390,
     investmentCategory: "equipment",
-    estimatedCost: 260000,
-    paymentStartOffsetMonths: 2,
-    installmentCount: 5,
-    paymentSource: "own_cash"
-  },
-  {
-    id: "item-3",
-    contractId: "11111111-1111-4111-8111-111111111111",
-    description: "Relatorios executivos e comite mensal",
-    quantity: 12,
-    unitPrice: 41000,
-    investmentCategory: "labor",
     estimatedCost: 0,
     paymentStartOffsetMonths: 0,
     installmentCount: 1,
     paymentSource: "own_cash"
   },
   {
-    id: "item-4",
-    contractId: "22222222-2222-4222-8222-222222222222",
-    description: "Implantacao e integracao de bases",
-    quantity: 1,
-    unitPrice: 180000,
-    investmentCategory: "software",
-    estimatedCost: 95000,
-    paymentStartOffsetMonths: 1,
-    installmentCount: 3,
-    paymentSource: "own_cash"
-  },
-  {
-    id: "item-5",
-    contractId: "22222222-2222-4222-8222-222222222222",
-    description: "Cameras, servidores e infraestrutura",
-    quantity: 1,
-    unitPrice: 936000,
+    id: "item-linhares-fixa",
+    contractId: "e8c58b9d-4eb8-50c0-9e81-333fc9d321a9",
+    description: "Ponto de videomonitoramento - camera IP fixa IR",
+    quantity: 120,
+    unitPrice: 840,
     investmentCategory: "equipment",
-    estimatedCost: 2000000,
-    paymentStartOffsetMonths: 3,
-    installmentCount: 5,
-    paymentSource: "own_cash"
-  },
-  {
-    id: "item-6",
-    contractId: "22222222-2222-4222-8222-222222222222",
-    description: "Suporte executivo",
-    quantity: 12,
-    unitPrice: 25333.33,
-    investmentCategory: "labor",
     estimatedCost: 0,
     paymentStartOffsetMonths: 0,
     installmentCount: 1,
     paymentSource: "own_cash"
   },
   {
-    id: "item-7",
-    contractId: "33333333-3333-4333-8333-333333333333",
-    description: "Setup operacional",
+    id: "item-linhares-lpr",
+    contractId: "e8c58b9d-4eb8-50c0-9e81-333fc9d321a9",
+    description: "Ponto de leitura de placas veiculares",
+    quantity: 600,
+    unitPrice: 3390,
+    investmentCategory: "equipment",
+    estimatedCost: 0,
+    paymentStartOffsetMonths: 0,
+    installmentCount: 1,
+    paymentSource: "own_cash"
+  },
+  {
+    id: "item-linhares-facial",
+    contractId: "e8c58b9d-4eb8-50c0-9e81-333fc9d321a9",
+    description: "Captura, deteccao, reconhecimento e gestao de imagem facial",
+    quantity: 60,
+    unitPrice: 6950,
+    investmentCategory: "equipment",
+    estimatedCost: 0,
+    paymentStartOffsetMonths: 0,
+    installmentCount: 1,
+    paymentSource: "own_cash"
+  },
+  {
+    id: "item-semobi-implantacao",
+    contractId: "c6717644-6809-5db6-9043-3d2a11269109",
+    description: "Implantacao estimada conforme planilha CFO",
     quantity: 1,
-    unitPrice: 140000,
-    investmentCategory: "software",
-    estimatedCost: 88000,
-    paymentStartOffsetMonths: 0,
-    installmentCount: 2,
-    paymentSource: "own_cash"
-  },
-  {
-    id: "item-8",
-    contractId: "33333333-3333-4333-8333-333333333333",
-    description: "Auditoria de medicoes",
-    quantity: 10,
-    unitPrice: 62000,
-    investmentCategory: "labor",
+    unitPrice: 2959357.7,
+    investmentCategory: "equipment",
     estimatedCost: 0,
     paymentStartOffsetMonths: 0,
     installmentCount: 1,
     paymentSource: "own_cash"
   },
   {
-    id: "item-9",
-    contractId: "33333333-3333-4333-8333-333333333333",
-    description: "Painel de indicadores",
-    quantity: 10,
-    unitPrice: 22000,
-    investmentCategory: "software",
-    estimatedCost: 50000,
-    paymentStartOffsetMonths: 1,
-    installmentCount: 2,
-    paymentSource: "third_party"
+    id: "item-tjba-implantacao",
+    contractId: "6cafa3c2-40f9-586a-8cb1-e313cd06bc62",
+    description: "Implantacao estimada conforme planilha CFO",
+    quantity: 1,
+    unitPrice: 2263831.57,
+    investmentCategory: "equipment",
+    estimatedCost: 0,
+    paymentStartOffsetMonths: 0,
+    installmentCount: 1,
+    paymentSource: "own_cash"
   }
 ];
 
-export const capex: Capex[] = [
-  { id: "capex-1", contractId: "11111111-1111-4111-8111-111111111111", month: "2026-01", category: "software", description: "Licencas e infraestrutura inicial", amount: 145000 },
-  { id: "capex-2", contractId: "11111111-1111-4111-8111-111111111111", month: "2026-02", category: "equipment", description: "Equipamentos de campo", amount: 78000 },
-  { id: "capex-3", contractId: "22222222-2222-4222-8222-222222222222", month: "2026-02", category: "software", description: "Ambiente de dados", amount: 118000 },
-  { id: "capex-4", contractId: "22222222-2222-4222-8222-222222222222", month: "2026-03", category: "equipment", description: "Dispositivos de acompanhamento", amount: 52000 },
-  { id: "capex-5", contractId: "33333333-3333-4333-8333-333333333333", month: "2026-03", category: "software", description: "Setup de plataforma", amount: 88000 }
-];
-
-export const opex: Opex[] = [
-  { id: "opex-1", contractId: "11111111-1111-4111-8111-111111111111", month: "2026-01", category: "labor", description: "Equipe tecnica", amount: 64000 },
-  { id: "opex-2", contractId: "11111111-1111-4111-8111-111111111111", month: "2026-02", category: "labor", description: "Equipe tecnica", amount: 68000 },
-  { id: "opex-3", contractId: "11111111-1111-4111-8111-111111111111", month: "2026-03", category: "logistics", description: "Deslocamentos e vistorias", amount: 22000 },
-  { id: "opex-4", contractId: "22222222-2222-4222-8222-222222222222", month: "2026-02", category: "labor", description: "Analistas de contratos", amount: 56000 },
-  { id: "opex-5", contractId: "22222222-2222-4222-8222-222222222222", month: "2026-03", category: "overhead", description: "Operacao mensal", amount: 39000 },
-  { id: "opex-6", contractId: "33333333-3333-4333-8333-333333333333", month: "2026-03", category: "labor", description: "Equipe inicial", amount: 43000 }
-];
-
-export const revenue: Revenue[] = [
-  { id: "rev-1", contractId: "11111111-1111-4111-8111-111111111111", month: "2026-01", status: "realized", description: "Parcela de implantacao", amount: 210000 },
-  { id: "rev-2", contractId: "11111111-1111-4111-8111-111111111111", month: "2026-02", status: "realized", description: "Medicao mensal", amount: 136000 },
-  { id: "rev-3", contractId: "11111111-1111-4111-8111-111111111111", month: "2026-03", status: "projected", description: "Medicao projetada", amount: 142000 },
-  { id: "rev-4", contractId: "11111111-1111-4111-8111-111111111111", month: "2026-04", status: "projected", description: "Medicao projetada", amount: 148000 },
-  { id: "rev-5", contractId: "22222222-2222-4222-8222-222222222222", month: "2026-02", status: "realized", description: "Parcela de implantacao", amount: 170000 },
-  { id: "rev-6", contractId: "22222222-2222-4222-8222-222222222222", month: "2026-03", status: "projected", description: "Medicao projetada", amount: 110000 },
-  { id: "rev-7", contractId: "22222222-2222-4222-8222-222222222222", month: "2026-04", status: "projected", description: "Medicao projetada", amount: 114000 },
-  { id: "rev-8", contractId: "33333333-3333-4333-8333-333333333333", month: "2026-03", status: "projected", description: "Inicio operacional", amount: 130000 },
-  { id: "rev-9", contractId: "33333333-3333-4333-8333-333333333333", month: "2026-04", status: "projected", description: "Medicao projetada", amount: 84000 }
-];
+export const capex: Capex[] = [];
+export const opex: Opex[] = [];
+export const revenue: Revenue[] = [];
 
 export const contractDocuments: ContractDocument[] = [
   {
-    id: "doc-1",
-    contractId: "11111111-1111-4111-8111-111111111111",
-    title: "Contrato original Linhares",
+    id: "doc-linhares-356",
+    contractId: "e8c58b9d-4eb8-50c0-9e81-333fc9d321a9",
+    title: "Contrato Linhares 356/2024",
     type: "contract",
-    url: "https://example.com/linhares-contrato.pdf",
-    uploadedAt: "2026-01-01"
+    url: "about:blank",
+    uploadedAt: "2024-10-15"
   },
   {
-    id: "doc-2",
-    contractId: "22222222-2222-4222-8222-222222222222",
-    title: "Contrato original Aracruz",
+    id: "doc-semobi-2025",
+    contractId: "c6717644-6809-5db6-9043-3d2a11269109",
+    title: "Contrato SEMOBI 2025.000006.35101.01",
     type: "contract",
-    url: "https://example.com/aracruz-contrato.pdf",
-    uploadedAt: "2026-02-01"
+    url: "about:blank",
+    uploadedAt: "2025-06-06"
   }
 ];
 

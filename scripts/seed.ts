@@ -37,49 +37,57 @@ async function main() {
     contractIdMap.set(contract.id, inserted.id);
   }
 
-  await db.insert(schema.contractItems).values(
-    seedData.contractItems.map((item) => ({
-      contractId: contractIdMap.get(item.contractId)!,
-      description: item.description,
-      quantity: item.quantity,
-      unitPrice: item.unitPrice.toString(),
-      investmentCategory: item.investmentCategory,
-      estimatedCost: item.estimatedCost.toString(),
-      paymentStartOffsetMonths: item.paymentStartOffsetMonths,
-      installmentCount: item.installmentCount,
-      paymentSource: item.paymentSource
-    }))
-  );
+  if (seedData.contractItems.length > 0) {
+    await db.insert(schema.contractItems).values(
+      seedData.contractItems.map((item) => ({
+        contractId: contractIdMap.get(item.contractId)!,
+        description: item.description,
+        quantity: item.quantity,
+        unitPrice: item.unitPrice.toString(),
+        investmentCategory: item.investmentCategory,
+        estimatedCost: item.estimatedCost.toString(),
+        paymentStartOffsetMonths: item.paymentStartOffsetMonths,
+        installmentCount: item.installmentCount,
+        paymentSource: item.paymentSource
+      }))
+    );
+  }
 
-  await db.insert(schema.capex).values(
-    seedData.capex.map((item) => ({
-      contractId: contractIdMap.get(item.contractId)!,
-      month: item.month,
-      category: item.category,
-      description: item.description,
-      amount: item.amount.toString()
-    }))
-  );
+  if (seedData.capex.length > 0) {
+    await db.insert(schema.capex).values(
+      seedData.capex.map((item) => ({
+        contractId: contractIdMap.get(item.contractId)!,
+        month: item.month,
+        category: item.category,
+        description: item.description,
+        amount: item.amount.toString()
+      }))
+    );
+  }
 
-  await db.insert(schema.opex).values(
-    seedData.opex.map((item) => ({
-      contractId: contractIdMap.get(item.contractId)!,
-      month: item.month,
-      category: item.category,
-      description: item.description,
-      amount: item.amount.toString()
-    }))
-  );
+  if (seedData.opex.length > 0) {
+    await db.insert(schema.opex).values(
+      seedData.opex.map((item) => ({
+        contractId: contractIdMap.get(item.contractId)!,
+        month: item.month,
+        category: item.category,
+        description: item.description,
+        amount: item.amount.toString()
+      }))
+    );
+  }
 
-  await db.insert(schema.revenue).values(
-    seedData.revenue.map((item) => ({
-      contractId: contractIdMap.get(item.contractId)!,
-      month: item.month,
-      status: item.status,
-      description: item.description,
-      amount: item.amount.toString()
-    }))
-  );
+  if (seedData.revenue.length > 0) {
+    await db.insert(schema.revenue).values(
+      seedData.revenue.map((item) => ({
+        contractId: contractIdMap.get(item.contractId)!,
+        month: item.month,
+        status: item.status,
+        description: item.description,
+        amount: item.amount.toString()
+      }))
+    );
+  }
 
   await db.insert(schema.contractDocuments).values(
     seedData.contractDocuments.map((item) => ({
@@ -91,7 +99,7 @@ async function main() {
     }))
   );
 
-  console.log("Seed completed for Linhares, Aracruz and Itapemirim.");
+  console.log(`Seed completed for ${seedData.contracts.length} real CFO workbook contracts.`);
 }
 
 main()
