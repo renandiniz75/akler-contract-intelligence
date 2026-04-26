@@ -1,0 +1,50 @@
+export const cfoActualRevenue = [
+  { contractNumber: "356/2024", month: "2026-02", invoiceNumber: "13", client: "MUNICIPIO DE LINHARES", amount: 509237.63, issuedAt: "2026-02-06", sourceCompany: "AKLER" },
+  { contractNumber: "0192/2024", month: "2026-02", invoiceNumber: "8", client: "MUNICIPIO DE MARATAIZES", amount: 514708.26, issuedAt: "2026-02-02", sourceCompany: "AKLER" },
+  { contractNumber: "100/2025", month: "2026-01", invoiceNumber: "5", client: "BAHIA TRIBUNAL DE JUSTICA", amount: 19333.22, issuedAt: "2026-01-30", sourceCompany: "AKLER" },
+  { contractNumber: "2025.000006.35101.01", month: "2026-01", invoiceNumber: "2", client: "SECRETARIA DE ESTADO DE MOBILIDADE E INFRAESTRUTURA - SEMOBI", amount: 448563.09, issuedAt: "2026-01-28", sourceCompany: "AKLER" },
+  { contractNumber: "2025.000006.35101.01", month: "2026-02", invoiceNumber: "14", client: "SECRETARIA DE ESTADO DE MOBILIDADE E INFRAESTRUTURA - SEMOBI", amount: 597488.46, issuedAt: "2026-02-11", sourceCompany: "AKLER" },
+  { contractNumber: "2025.000006.35101.01", month: "2026-02", invoiceNumber: "15", client: "SECRETARIA DE ESTADO DE MOBILIDADE E INFRAESTRUTURA - SEMOBI", amount: 57146.71, issuedAt: "2026-02-11", sourceCompany: "AKLER" },
+  { contractNumber: "013/2025", month: "2026-02", invoiceNumber: "12", client: "MUNICIPIO DE ARACRUZ", amount: 489118.52, issuedAt: "2026-02-04", sourceCompany: "AKLER" },
+  { contractNumber: "529/2024", month: "2026-02", invoiceNumber: "9", client: "MUNICIPIO DE ITAPEMIRIM", amount: 474745.51, issuedAt: "2026-02-02", sourceCompany: "AKLER" },
+  { contractNumber: "100/2025", month: "2026-01", invoiceNumber: "4", client: "BAHIA TRIBUNAL DE JUSTICA", amount: 349053.52, issuedAt: "2026-01-30", sourceCompany: "AKLER" },
+  { contractNumber: "102/2023", month: "2026-02", invoiceNumber: "2", client: "MUNICIPIO DE ITAPEMIRIM", amount: 121373.81, issuedAt: "2026-02-02", sourceCompany: "STARTID" },
+  { contractNumber: "071/2024", month: "2026-02", invoiceNumber: "6", client: "MUNICIPIO DE ANCHIETA", amount: 70023.35, issuedAt: "2026-02-02", sourceCompany: "STARTID" },
+  { contractNumber: "146/2022", month: "2026-02", invoiceNumber: "3", client: "MUNICIPIO DA SERRA", amount: 175123.94, issuedAt: "2026-02-02", sourceCompany: "STARTID" },
+  { contractNumber: "071/2024", month: "2026-02", invoiceNumber: "5", client: "MUNICIPIO DE ANCHIETA", amount: 45667.4, issuedAt: "2026-02-02", sourceCompany: "STARTID" },
+  { contractNumber: "146/2022", month: "2026-02", invoiceNumber: "7", client: "MUNICIPIO DA SERRA", amount: 757475.49, issuedAt: "2026-02-04", sourceCompany: "STARTID" },
+  { contractNumber: "146/2022", month: "2026-02", invoiceNumber: "4", client: "FUNDO MUNICIPAL DE SAUDE DE SERRA", amount: 43907.64, issuedAt: "2026-02-02", sourceCompany: "STARTID" },
+  { contractNumber: "2025.000006.35101.01", month: "2026-03", invoiceNumber: "20", client: "SECRETARIA DE ESTADO DE MOBILIDADE E INFRAESTRUTURA - SEMOBI", amount: 822982.43, issuedAt: "2026-03-12", sourceCompany: "AKLER" },
+  { contractNumber: "013/2025", month: "2026-03", invoiceNumber: "19", client: "MUNICIPIO DE ARACRUZ", amount: 502684.6, issuedAt: "2026-03-03", sourceCompany: "AKLER" },
+  { contractNumber: "356/2024", month: "2026-03", invoiceNumber: "18", client: "MUNICIPIO DE LINHARES", amount: 509237.63, issuedAt: "2026-03-03", sourceCompany: "AKLER" },
+  { contractNumber: "2025.000006.35101.01", month: "2026-03", invoiceNumber: "21", client: "SECRETARIA DE ESTADO DE MOBILIDADE E INFRAESTRUTURA - SEMOBI", amount: 133342.33, issuedAt: "2026-03-12", sourceCompany: "AKLER" },
+  { contractNumber: "529/2024", month: "2026-03", invoiceNumber: "17", client: "MUNICIPIO DE ITAPEMIRIM", amount: 475086.89, issuedAt: "2026-03-03", sourceCompany: "AKLER" },
+  { contractNumber: "0192/2024", month: "2026-03", invoiceNumber: "16", client: "MUNICIPIO DE MARATAIZES", amount: 514708.26, issuedAt: "2026-03-03", sourceCompany: "AKLER" },
+  { contractNumber: "146/2022", month: "2026-03", invoiceNumber: "11", client: "FUNDO MUNICIPAL DE SAUDE DE SERRA", amount: 43907.64, issuedAt: "2026-03-03", sourceCompany: "STARTID" },
+  { contractNumber: "102/2023", month: "2026-03", invoiceNumber: "8", client: "MUNICIPIO DE ITAPEMIRIM", amount: 121544.5, issuedAt: "2026-03-03", sourceCompany: "STARTID" },
+  { contractNumber: "071/2024", month: "2026-03", invoiceNumber: "12", client: "MUNICIPIO DE ANCHIETA", amount: 70023.35, issuedAt: "2026-03-03", sourceCompany: "STARTID" },
+  { contractNumber: "071/2024", month: "2026-03", invoiceNumber: "13", client: "MUNICIPIO DE ANCHIETA", amount: 45667.4, issuedAt: "2026-03-03", sourceCompany: "STARTID" },
+  { contractNumber: "146/2022", month: "2026-03", invoiceNumber: "10", client: "MUNICIPIO DA SERRA", amount: 175123.94, issuedAt: "2026-03-03", sourceCompany: "STARTID" },
+  { contractNumber: "146/2022", month: "2026-03", invoiceNumber: "9", client: "MUNICIPIO DA SERRA", amount: 757475.49, issuedAt: "2026-03-03", sourceCompany: "STARTID" },
+  { contractNumber: "0192/2024", month: "2026-04", invoiceNumber: "24", client: "MUNICIPIO DE MARATAIZES", amount: 514708.26, issuedAt: "2026-04-01", sourceCompany: "AKLER" },
+  { contractNumber: "013/2025", month: "2026-04", invoiceNumber: "28", client: "MUNICIPIO DE ARACRUZ", amount: 502684.6, issuedAt: "2026-04-01", sourceCompany: "AKLER" },
+  { contractNumber: "356/2024", month: "2026-04", invoiceNumber: "26", client: "MUNICIPIO DE LINHARES", amount: 509237.63, issuedAt: "2026-04-01", sourceCompany: "AKLER" },
+  { contractNumber: "2025.000006.35101.01", month: "2026-03", invoiceNumber: "22", client: "SECRETARIA DE ESTADO DE MOBILIDADE E INFRAESTRUTURA - SEMOBI", amount: 214225.79, issuedAt: "2026-03-12", sourceCompany: "AKLER" },
+  { contractNumber: "2025.000006.35101.01", month: "2026-03", invoiceNumber: "23", client: "SECRETARIA DE ESTADO DE MOBILIDADE E INFRAESTRUTURA - SEMOBI", amount: 147790.34, issuedAt: "2026-03-12", sourceCompany: "AKLER" },
+  { contractNumber: "529/2024", month: "2026-04", invoiceNumber: "25", client: "MUNICIPIO DE ITAPEMIRIM", amount: 475940.3, issuedAt: "2026-04-01", sourceCompany: "AKLER" },
+  { contractNumber: "013/2025", month: "2026-04", invoiceNumber: "27", client: "MUNICIPIO DE ARACRUZ", amount: 502685, issuedAt: "2026-04-01", sourceCompany: "AKLER" },
+  { contractNumber: "071/2024", month: "2026-04", invoiceNumber: "24", client: "MUNICIPIO DE ANCHIETA", amount: 70023.35, issuedAt: "2026-04-01", sourceCompany: "STARTID" },
+  { contractNumber: "146/2022", month: "2026-04", invoiceNumber: "22", client: "MUNICIPIO DA SERRA", amount: 175123.94, issuedAt: "2026-04-01", sourceCompany: "STARTID" },
+  { contractNumber: "071/2024", month: "2026-04", invoiceNumber: "25", client: "MUNICIPIO DE ANCHIETA", amount: 45667.4, issuedAt: "2026-04-01", sourceCompany: "STARTID" },
+  { contractNumber: "146/2022", month: "2026-04", invoiceNumber: "21", client: "MUNICIPIO DA SERRA", amount: 757475.49, issuedAt: "2026-04-01", sourceCompany: "STARTID" },
+  { contractNumber: "102/2023", month: "2026-04", invoiceNumber: "18", client: "MUNICIPIO DE ITAPEMIRIM", amount: 121544.5, issuedAt: "2026-04-01", sourceCompany: "STARTID" },
+  { contractNumber: "146/2022", month: "2026-04", invoiceNumber: "23", client: "FUNDO MUNICIPAL DE SAUDE DE SERRA", amount: 43907.64, issuedAt: "2026-04-01", sourceCompany: "STARTID" },
+  { contractNumber: "001/2025", month: "2026-04", invoiceNumber: "29", client: "CONSELHO REGIONAL DE ENGENHARIA E AGRONOMIA DO ES", amount: 36635.63, issuedAt: "2026-04-06", sourceCompany: "AKLER" }
+];
+
+export const cfoImportMetadata = {
+  source: "Fluxo_Caixa_Gerencial_2026-04-24.xlsx",
+  skippedActualRevenueRows: [
+    "STARTID · MUNICIPIO DE ARACRUZ · sem contrato STARTID correspondente na aba Contratos"
+  ]
+};

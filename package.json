@@ -12,6 +12,7 @@
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:seed": "tsx scripts/seed.ts",
+    "import:cfo": "tsx scripts/import-cfo.ts",
     "db:setup": "npm run db:push && npm run db:seed",
     "render-build": "drizzle-kit push --force && npm run build"
   },

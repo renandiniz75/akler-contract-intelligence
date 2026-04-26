@@ -244,7 +244,7 @@ export const contracts: Contract[] = [
 
 export const contractItems: ContractItem[] = [
   {
-    id: "item-linhares-ptz",
+    id: "e6ac0a5a-0740-563b-8254-681b28701338",
     contractId: "e8c58b9d-4eb8-50c0-9e81-333fc9d321a9",
     description: "Ponto de videomonitoramento - camera IP PTZ",
     quantity: 720,
@@ -256,7 +256,7 @@ export const contractItems: ContractItem[] = [
     paymentSource: "own_cash"
   },
   {
-    id: "item-linhares-fixa",
+    id: "8caabd83-5c2c-5d65-b958-f0f190ca9242",
     contractId: "e8c58b9d-4eb8-50c0-9e81-333fc9d321a9",
     description: "Ponto de videomonitoramento - camera IP fixa IR",
     quantity: 120,
@@ -268,7 +268,7 @@ export const contractItems: ContractItem[] = [
     paymentSource: "own_cash"
   },
   {
-    id: "item-linhares-lpr",
+    id: "7d5cb4c0-bb8f-5a39-8dfb-fb44c1d92de8",
     contractId: "e8c58b9d-4eb8-50c0-9e81-333fc9d321a9",
     description: "Ponto de leitura de placas veiculares",
     quantity: 600,
@@ -280,7 +280,7 @@ export const contractItems: ContractItem[] = [
     paymentSource: "own_cash"
   },
   {
-    id: "item-linhares-facial",
+    id: "9e122494-1d5a-5ea3-be3d-d935b4838d64",
     contractId: "e8c58b9d-4eb8-50c0-9e81-333fc9d321a9",
     description: "Captura, deteccao, reconhecimento e gestao de imagem facial",
     quantity: 60,
@@ -292,7 +292,7 @@ export const contractItems: ContractItem[] = [
     paymentSource: "own_cash"
   },
   {
-    id: "item-semobi-implantacao",
+    id: "4e653939-cc35-5a37-9f0a-fae782415035",
     contractId: "c6717644-6809-5db6-9043-3d2a11269109",
     description: "Implantacao estimada conforme planilha CFO",
     quantity: 1,
@@ -304,7 +304,7 @@ export const contractItems: ContractItem[] = [
     paymentSource: "own_cash"
   },
   {
-    id: "item-tjba-implantacao",
+    id: "012e9fb8-653f-5a32-81ae-458d9e4ef88c",
     contractId: "6cafa3c2-40f9-586a-8cb1-e313cd06bc62",
     description: "Implantacao estimada conforme planilha CFO",
     quantity: 1,
@@ -323,7 +323,7 @@ export const revenue: Revenue[] = [];
 
 export const contractDocuments: ContractDocument[] = [
   {
-    id: "doc-linhares-356",
+    id: "fb4a0a95-4ae1-5a24-bf44-9a7c9b6e9abd",
     contractId: "e8c58b9d-4eb8-50c0-9e81-333fc9d321a9",
     title: "Contrato Linhares 356/2024",
     type: "contract",
@@ -331,7 +331,7 @@ export const contractDocuments: ContractDocument[] = [
     uploadedAt: "2024-10-15"
   },
   {
-    id: "doc-semobi-2025",
+    id: "33236231-5083-5d7c-997e-0dcfb1735d79",
     contractId: "c6717644-6809-5db6-9043-3d2a11269109",
     title: "Contrato SEMOBI 2025.000006.35101.01",
     type: "contract",
