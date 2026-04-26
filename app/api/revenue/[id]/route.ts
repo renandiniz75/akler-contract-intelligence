@@ -20,11 +20,20 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     .where(eq(revenue.id, id))
     .returning();
 
+  if (!row) {
+    return NextResponse.json({ error: "Revenue record not found" }, { status: 404 });
+  }
+
   return NextResponse.json(row);
 }
 
 export async function DELETE(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  await db.delete(revenue).where(eq(revenue.id, id));
+  const [row] = await db.delete(revenue).where(eq(revenue.id, id)).returning({ id: revenue.id });
+
+  if (!row) {
+    return NextResponse.json({ error: "Revenue record not found" }, { status: 404 });
+  }
+
   return NextResponse.json({ ok: true });
 }

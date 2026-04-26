@@ -18,7 +18,7 @@ export default async function RevenuePage() {
             <CardTitle>Lancamentos de receita</CardTitle>
           </CardHeader>
           <CardContent>
-            <FinanceTable rows={revenue} label="Status" contracts={contracts} />
+            <FinanceTable rows={revenue} label="Status" contracts={contracts} mode="revenue" />
           </CardContent>
         </Card>
         <FinanceForm title="Nova receita" mode="revenue" contracts={contracts} />

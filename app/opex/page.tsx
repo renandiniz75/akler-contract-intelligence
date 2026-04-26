@@ -18,7 +18,7 @@ export default async function OpexPage() {
             <CardTitle>Despesas operacionais</CardTitle>
           </CardHeader>
           <CardContent>
-            <FinanceTable rows={opex} label="Categoria" contracts={contracts} />
+            <FinanceTable rows={opex} label="Categoria" contracts={contracts} mode="opex" />
           </CardContent>
         </Card>
         <FinanceForm title="Novo OPEX" mode="opex" contracts={contracts} />

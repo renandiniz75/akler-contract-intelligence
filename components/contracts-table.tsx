@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { EditContractRecord } from "@/components/record-actions";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { formatCurrency } from "@/lib/calculations";
 import type { Contract } from "@/lib/types";
@@ -20,6 +21,7 @@ export function ContractsTable({ contracts }: { contracts: Contract[] }) {
           <TableHead>Orgao</TableHead>
           <TableHead>Status</TableHead>
           <TableHead className="text-right">Valor</TableHead>
+          <TableHead className="text-right">Acoes</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -35,6 +37,9 @@ export function ContractsTable({ contracts }: { contracts: Contract[] }) {
               <Badge>{statusLabel[contract.status]}</Badge>
             </TableCell>
             <TableCell className="text-right font-medium">{formatCurrency(contract.totalValue)}</TableCell>
+            <TableCell className="text-right">
+              <EditContractRecord contract={contract} />
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>

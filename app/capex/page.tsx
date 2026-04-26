@@ -18,7 +18,7 @@ export default async function CapexPage() {
             <CardTitle>Investimentos registrados</CardTitle>
           </CardHeader>
           <CardContent>
-            <FinanceTable rows={capex} label="Categoria" contracts={contracts} />
+            <FinanceTable rows={capex} label="Categoria" contracts={contracts} mode="capex" />
           </CardContent>
         </Card>
         <FinanceForm title="Novo CAPEX" mode="capex" contracts={contracts} />

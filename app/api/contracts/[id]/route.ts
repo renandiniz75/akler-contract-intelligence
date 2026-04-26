@@ -28,11 +28,20 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     .where(eq(contracts.id, id))
     .returning();
 
+  if (!row) {
+    return NextResponse.json({ error: "Contract not found" }, { status: 404 });
+  }
+
   return NextResponse.json(row);
 }
 
 export async function DELETE(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  await db.delete(contracts).where(eq(contracts.id, id));
+  const [row] = await db.delete(contracts).where(eq(contracts.id, id)).returning({ id: contracts.id });
+
+  if (!row) {
+    return NextResponse.json({ error: "Contract not found" }, { status: 404 });
+  }
+
   return NextResponse.json({ ok: true });
 }
