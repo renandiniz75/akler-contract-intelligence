@@ -18,7 +18,13 @@ export default async function OpexPage() {
             <CardTitle>Despesas operacionais</CardTitle>
           </CardHeader>
           <CardContent>
-            <FinanceTable rows={opex} label="Categoria" contracts={contracts} mode="opex" />
+            <FinanceTable
+              rows={opex}
+              label="Categoria"
+              contracts={contracts}
+              mode="opex"
+              emptyMessage="Ainda nao ha OPEX por contrato importado. A planilha CFO tem despesas consolidadas, mas a maioria ainda nao esta vinculada contrato a contrato."
+            />
           </CardContent>
         </Card>
         <FinanceForm title="Novo OPEX" mode="opex" contracts={contracts} />
