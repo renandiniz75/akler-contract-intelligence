@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import type { Capex, Contract, ContractStatus, ExpenseCategory, Opex, Revenue, RevenueStatus } from "@/lib/types";
+import type { Capex, Contract, ContractItem, ContractStatus, ExpenseCategory, Opex, Revenue, RevenueStatus } from "@/lib/types";
 
 type Mode = "capex" | "opex" | "revenue";
 export type FinanceRow = Capex | Opex | Revenue;
@@ -140,6 +140,78 @@ export function EditFinanceRecord({ mode, row }: { mode: Mode; row: FinanceRow }
           <div className="grid gap-1">
             <Label htmlFor={`${row.id}-description`}>Descricao</Label>
             <Input id={`${row.id}-description`} name="description" defaultValue={row.description} required />
+          </div>
+          <div className="flex items-center gap-2">
+            <Button type="submit" size="sm" disabled={status === "saving"}>
+              {status === "saving" ? "Salvando..." : "Salvar"}
+            </Button>
+            <Button type="button" size="sm" variant="ghost" onClick={() => setOpen(false)}>
+              Cancelar
+            </Button>
+            {status === "error" ? <span className="text-xs text-destructive">Falha ao salvar</span> : null}
+          </div>
+        </form>
+      ) : null}
+    </div>
+  );
+}
+
+export function EditContractItemRecord({ item }: { item: ContractItem }) {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const endpoint = `/api/contract-items/${item.id}`;
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setStatus("saving");
+
+    const formData = new FormData(event.currentTarget);
+    const payload = {
+      description: formData.get("description"),
+      quantity: formData.get("quantity"),
+      unitPrice: formData.get("unitPrice")
+    };
+
+    const response = await fetch(endpoint, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    if (response.ok) {
+      setStatus("saved");
+      setOpen(false);
+      router.refresh();
+      return;
+    }
+
+    setStatus("error");
+  }
+
+  return (
+    <div className="flex flex-col items-end gap-2">
+      <div className="flex items-center justify-end gap-1">
+        <Button type="button" variant="ghost" size="icon" onClick={() => setOpen((value) => !value)} aria-label="Editar item contratado">
+          <Pencil className="h-4 w-4" />
+        </Button>
+        <DeleteRecordButton endpoint={endpoint} label={item.description} />
+      </div>
+      {open ? (
+        <form className="grid w-full min-w-[280px] gap-3 rounded-md border bg-white p-3 text-left shadow-sm" onSubmit={handleSubmit}>
+          <div className="grid gap-1">
+            <Label htmlFor={`${item.id}-description`}>Descricao</Label>
+            <Input id={`${item.id}-description`} name="description" defaultValue={item.description} required />
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            <div className="grid gap-1">
+              <Label htmlFor={`${item.id}-quantity`}>Qtd.</Label>
+              <Input id={`${item.id}-quantity`} name="quantity" type="number" min="1" step="1" defaultValue={item.quantity} required />
+            </div>
+            <div className="grid gap-1">
+              <Label htmlFor={`${item.id}-unit-price`}>Unitario</Label>
+              <Input id={`${item.id}-unit-price`} name="unitPrice" type="number" min="0" step="0.01" defaultValue={item.unitPrice} required />
+            </div>
           </div>
           <div className="flex items-center gap-2">
             <Button type="submit" size="sm" disabled={status === "saving"}>

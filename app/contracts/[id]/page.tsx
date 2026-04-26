@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { ArrowLeft, Banknote, FileText, Percent, Timer } from "lucide-react";
 import { CashFlowChart } from "@/components/dashboard/cash-flow-chart";
+import { ContractItemForm } from "@/components/forms/contract-item-form";
 import { DocumentForm } from "@/components/forms/document-form";
-import { EditContractRecord, DeleteRecordButton } from "@/components/record-actions";
+import { DeleteRecordButton, EditContractItemRecord, EditContractRecord } from "@/components/record-actions";
 import { PageHeader } from "@/components/page-header";
 import { StatCard } from "@/components/stat-card";
 import { Button } from "@/components/ui/button";
@@ -109,33 +110,47 @@ export default async function ContractDetailPage({ params }: { params: Promise<{
         </Card>
       </div>
 
-      <Card className="mt-6">
-        <CardHeader>
-          <CardTitle>Itens do contrato</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Descricao</TableHead>
-                <TableHead className="text-right">Qtd.</TableHead>
-                <TableHead className="text-right">Unitario</TableHead>
-                <TableHead className="text-right">Total</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {contractItems.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell>{item.description}</TableCell>
-                  <TableCell className="text-right">{item.quantity}</TableCell>
-                  <TableCell className="text-right">{formatCurrency(item.unitPrice)}</TableCell>
-                  <TableCell className="text-right font-medium">{formatCurrency(item.quantity * item.unitPrice)}</TableCell>
+      <div className="mt-6 grid gap-4 xl:grid-cols-[1.5fr_1fr]">
+        <Card>
+          <CardHeader>
+            <CardTitle>Itens do contrato</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Descricao</TableHead>
+                  <TableHead className="text-right">Qtd.</TableHead>
+                  <TableHead className="text-right">Unitario</TableHead>
+                  <TableHead className="text-right">Total</TableHead>
+                  <TableHead className="text-right">Acoes</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+              </TableHeader>
+              <TableBody>
+                {contractItems.map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell>{item.description}</TableCell>
+                    <TableCell className="text-right">{item.quantity}</TableCell>
+                    <TableCell className="text-right">{formatCurrency(item.unitPrice)}</TableCell>
+                    <TableCell className="text-right font-medium">{formatCurrency(item.quantity * item.unitPrice)}</TableCell>
+                    <TableCell className="text-right">
+                      <EditContractItemRecord item={item} />
+                    </TableCell>
+                  </TableRow>
+                ))}
+                {contractItems.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={5} className="py-8 text-center text-sm text-muted-foreground">
+                      Nenhum item cadastrado para este contrato.
+                    </TableCell>
+                  </TableRow>
+                ) : null}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+        <ContractItemForm contractId={contract.id} />
+      </div>
 
       <div className="mt-6 grid gap-4 xl:grid-cols-3">
         <FinancialMiniTable title="Receitas" rows={revenue} valueLabel="Status" />
