@@ -17,6 +17,9 @@ export type Contract = {
   initialTermMonths: number;
   renewalCount: number;
   renewalTermMonths: number;
+  revenueProjectionMonths: number;
+  revenueAdjustmentRate: number;
+  revenueAdjustmentFrequencyMonths: number;
 };
 
 export type ContractItem = {

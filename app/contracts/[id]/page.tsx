@@ -124,6 +124,14 @@ export default async function ContractDetailPage({ params }: { params: Promise<{
               <span className="text-muted-foreground">Receita mensal base</span>
               <strong>{formatCurrency(contract.totalValue / contract.initialTermMonths)}</strong>
             </div>
+            <div className="flex justify-between gap-4">
+              <span className="text-muted-foreground">Projecao de receita</span>
+              <strong>{contract.revenueProjectionMonths} meses</strong>
+            </div>
+            <div className="flex justify-between gap-4">
+              <span className="text-muted-foreground">Reajuste projetado</span>
+              <strong>{contract.revenueAdjustmentRate}% a cada {contract.revenueAdjustmentFrequencyMonths} meses</strong>
+            </div>
           </CardContent>
         </Card>
       </div>

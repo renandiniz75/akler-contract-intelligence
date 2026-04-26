@@ -51,7 +51,10 @@ export async function getAppData(): Promise<AppData> {
         totalValue: toNumber(contract.totalValue),
         initialTermMonths: contract.initialTermMonths,
         renewalCount: contract.renewalCount,
-        renewalTermMonths: contract.renewalTermMonths
+        renewalTermMonths: contract.renewalTermMonths,
+        revenueProjectionMonths: contract.revenueProjectionMonths,
+        revenueAdjustmentRate: toNumber(contract.revenueAdjustmentRate),
+        revenueAdjustmentFrequencyMonths: contract.revenueAdjustmentFrequencyMonths
       })),
       contractItems: itemRows.map((item) => ({
         id: item.id,

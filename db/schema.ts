@@ -39,6 +39,9 @@ export const contracts = pgTable("contracts", {
   initialTermMonths: integer("initial_term_months").notNull().default(12),
   renewalCount: integer("renewal_count").notNull().default(9),
   renewalTermMonths: integer("renewal_term_months").notNull().default(12),
+  revenueProjectionMonths: integer("revenue_projection_months").notNull().default(120),
+  revenueAdjustmentRate: numeric("revenue_adjustment_rate", { precision: 6, scale: 2 }).notNull().default("0"),
+  revenueAdjustmentFrequencyMonths: integer("revenue_adjustment_frequency_months").notNull().default(12),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull()
 });

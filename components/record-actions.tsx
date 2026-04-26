@@ -314,7 +314,10 @@ export function EditContractRecord({ contract }: { contract: Contract }) {
       status: formData.get("status"),
       initialTermMonths: formData.get("initialTermMonths"),
       renewalCount: formData.get("renewalCount"),
-      renewalTermMonths: formData.get("renewalTermMonths")
+      renewalTermMonths: formData.get("renewalTermMonths"),
+      revenueProjectionMonths: formData.get("revenueProjectionMonths"),
+      revenueAdjustmentRate: formData.get("revenueAdjustmentRate"),
+      revenueAdjustmentFrequencyMonths: formData.get("revenueAdjustmentFrequencyMonths")
     };
 
     const response = await fetch(endpoint, {
@@ -412,6 +415,42 @@ export function EditContractRecord({ contract }: { contract: Contract }) {
                 name="renewalTermMonths"
                 type="number"
                 defaultValue={contract.renewalTermMonths}
+                required
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-3 gap-2">
+            <div className="grid gap-1">
+              <Label htmlFor={`${contract.id}-revenueProjectionMonths`}>Proj. receita</Label>
+              <Input
+                id={`${contract.id}-revenueProjectionMonths`}
+                name="revenueProjectionMonths"
+                type="number"
+                defaultValue={contract.revenueProjectionMonths}
+                required
+              />
+            </div>
+            <div className="grid gap-1">
+              <Label htmlFor={`${contract.id}-revenueAdjustmentRate`}>Reajuste %</Label>
+              <Input
+                id={`${contract.id}-revenueAdjustmentRate`}
+                name="revenueAdjustmentRate"
+                type="number"
+                min="0"
+                step="0.01"
+                defaultValue={contract.revenueAdjustmentRate}
+                required
+              />
+            </div>
+            <div className="grid gap-1">
+              <Label htmlFor={`${contract.id}-revenueAdjustmentFrequencyMonths`}>Freq.</Label>
+              <Input
+                id={`${contract.id}-revenueAdjustmentFrequencyMonths`}
+                name="revenueAdjustmentFrequencyMonths"
+                type="number"
+                min="1"
+                step="1"
+                defaultValue={contract.revenueAdjustmentFrequencyMonths}
                 required
               />
             </div>

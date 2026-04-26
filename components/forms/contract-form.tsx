@@ -29,7 +29,10 @@ export function ContractForm() {
       status: formData.get("status"),
       initialTermMonths: formData.get("initialTermMonths"),
       renewalCount: formData.get("renewalCount"),
-      renewalTermMonths: formData.get("renewalTermMonths")
+      renewalTermMonths: formData.get("renewalTermMonths"),
+      revenueProjectionMonths: formData.get("revenueProjectionMonths"),
+      revenueAdjustmentRate: formData.get("revenueAdjustmentRate"),
+      revenueAdjustmentFrequencyMonths: formData.get("revenueAdjustmentFrequencyMonths")
     };
 
     const response = await fetch("/api/contracts", {
@@ -91,6 +94,18 @@ export function ContractForm() {
           <div className="grid gap-2">
             <Label htmlFor="renewalTermMonths">Prazo por renovacao</Label>
             <Input id="renewalTermMonths" name="renewalTermMonths" type="number" defaultValue={12} required />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="revenueProjectionMonths">Receita projetada por</Label>
+            <Input id="revenueProjectionMonths" name="revenueProjectionMonths" type="number" defaultValue={120} required />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="revenueAdjustmentRate">Indice de reajuste (%)</Label>
+            <Input id="revenueAdjustmentRate" name="revenueAdjustmentRate" type="number" min="0" step="0.01" defaultValue={0} required />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="revenueAdjustmentFrequencyMonths">Reajuste a cada meses</Label>
+            <Input id="revenueAdjustmentFrequencyMonths" name="revenueAdjustmentFrequencyMonths" type="number" min="1" step="1" defaultValue={12} required />
           </div>
           <div className="grid gap-2">
             <Label>Status</Label>

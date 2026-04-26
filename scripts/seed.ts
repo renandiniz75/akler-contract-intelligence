@@ -27,7 +27,10 @@ async function main() {
         totalValue: contract.totalValue.toString(),
         initialTermMonths: contract.initialTermMonths,
         renewalCount: contract.renewalCount,
-        renewalTermMonths: contract.renewalTermMonths
+        renewalTermMonths: contract.renewalTermMonths,
+        revenueProjectionMonths: contract.revenueProjectionMonths,
+        revenueAdjustmentRate: contract.revenueAdjustmentRate.toString(),
+        revenueAdjustmentFrequencyMonths: contract.revenueAdjustmentFrequencyMonths
       })
       .returning({ id: schema.contracts.id });
 

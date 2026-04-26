@@ -13,7 +13,10 @@ export const contracts: Contract[] = [
     totalValue: 1850000,
     initialTermMonths: 12,
     renewalCount: 9,
-    renewalTermMonths: 12
+    renewalTermMonths: 12,
+    revenueProjectionMonths: 120,
+    revenueAdjustmentRate: 4.5,
+    revenueAdjustmentFrequencyMonths: 12
   },
   {
     id: "22222222-2222-4222-8222-222222222222",
@@ -27,7 +30,10 @@ export const contracts: Contract[] = [
     totalValue: 1420000,
     initialTermMonths: 12,
     renewalCount: 9,
-    renewalTermMonths: 12
+    renewalTermMonths: 12,
+    revenueProjectionMonths: 120,
+    revenueAdjustmentRate: 4,
+    revenueAdjustmentFrequencyMonths: 12
   },
   {
     id: "33333333-3333-4333-8333-333333333333",
@@ -41,7 +47,10 @@ export const contracts: Contract[] = [
     totalValue: 980000,
     initialTermMonths: 12,
     renewalCount: 9,
-    renewalTermMonths: 12
+    renewalTermMonths: 12,
+    revenueProjectionMonths: 120,
+    revenueAdjustmentRate: 3.8,
+    revenueAdjustmentFrequencyMonths: 12
   }
 ];
 

@@ -11,7 +11,7 @@ function monthKey(date: Date) {
 }
 
 export function getContractPotentialMonths(contract: Contract) {
-  return contract.initialTermMonths + contract.renewalCount * contract.renewalTermMonths;
+  return contract.revenueProjectionMonths;
 }
 
 export function buildOptimisticRevenueProjection(contracts: Contract[], revenue: Revenue[]): Revenue[] {
@@ -24,6 +24,8 @@ export function buildOptimisticRevenueProjection(contracts: Contract[], revenue:
     return Array.from({ length: totalMonths }, (_, index): Revenue | null => {
       const month = monthKey(addMonths(startDate, index));
       const key = `${contract.id}:${month}`;
+      const adjustmentPeriods = Math.floor(index / contract.revenueAdjustmentFrequencyMonths);
+      const adjustmentFactor = (1 + contract.revenueAdjustmentRate / 100) ** adjustmentPeriods;
 
       if (existingRevenueKeys.has(key)) {
         return null;
@@ -34,8 +36,8 @@ export function buildOptimisticRevenueProjection(contracts: Contract[], revenue:
         contractId: contract.id,
         month,
         status: "projected" as const,
-        description: `Projecao otimista com ${contract.renewalCount} renovacoes`,
-        amount: monthlyAmount,
+        description: `Projecao contratual por ${contract.revenueProjectionMonths} meses com reajuste de ${contract.revenueAdjustmentRate}%`,
+        amount: monthlyAmount * adjustmentFactor,
         generated: true
       };
     }).filter((item): item is Revenue => item !== null);

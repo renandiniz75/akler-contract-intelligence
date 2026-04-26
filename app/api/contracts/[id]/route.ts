@@ -15,7 +15,10 @@ const updateSchema = z.object({
   totalValue: z.coerce.number().nonnegative().optional(),
   initialTermMonths: z.coerce.number().int().positive().optional(),
   renewalCount: z.coerce.number().int().nonnegative().optional(),
-  renewalTermMonths: z.coerce.number().int().positive().optional()
+  renewalTermMonths: z.coerce.number().int().positive().optional(),
+  revenueProjectionMonths: z.coerce.number().int().positive().optional(),
+  revenueAdjustmentRate: z.coerce.number().nonnegative().optional(),
+  revenueAdjustmentFrequencyMonths: z.coerce.number().int().positive().optional()
 });
 
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -26,6 +29,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     .set({
       ...payload,
       totalValue: payload.totalValue?.toString(),
+      revenueAdjustmentRate: payload.revenueAdjustmentRate?.toString(),
       updatedAt: new Date()
     })
     .where(eq(contracts.id, id))

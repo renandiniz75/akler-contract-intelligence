@@ -15,7 +15,10 @@ const contractSchema = z.object({
   totalValue: z.coerce.number().nonnegative(),
   initialTermMonths: z.coerce.number().int().positive().default(12),
   renewalCount: z.coerce.number().int().nonnegative().default(9),
-  renewalTermMonths: z.coerce.number().int().positive().default(12)
+  renewalTermMonths: z.coerce.number().int().positive().default(12),
+  revenueProjectionMonths: z.coerce.number().int().positive().default(120),
+  revenueAdjustmentRate: z.coerce.number().nonnegative().default(0),
+  revenueAdjustmentFrequencyMonths: z.coerce.number().int().positive().default(12)
 });
 
 export async function GET() {
@@ -29,7 +32,8 @@ export async function POST(request: NextRequest) {
     .insert(contracts)
     .values({
       ...payload,
-      totalValue: payload.totalValue.toString()
+      totalValue: payload.totalValue.toString(),
+      revenueAdjustmentRate: payload.revenueAdjustmentRate.toString()
     })
     .returning();
 
