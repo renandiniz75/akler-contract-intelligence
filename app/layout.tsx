@@ -16,8 +16,8 @@ const navigation: Array<{ href: Route; label: string; icon: LucideIcon }> = [
   { href: "/capacity", label: "Capacidade", icon: Target },
   { href: "/cfo-intelligence" as Route, label: "Intel. CFO", icon: BrainCircuit },
   { href: "/cfo-model", label: "Modelo CFO", icon: FileSpreadsheet },
-  { href: "/capex", label: "CAPEX", icon: Building2 },
-  { href: "/opex", label: "OPEX", icon: WalletCards },
+  { href: "/capex", label: "Investimentos", icon: Building2 },
+  { href: "/opex", label: "Despesas", icon: WalletCards },
   { href: "/revenue", label: "Receita", icon: Banknote },
   { href: "/cash-flow", label: "Fluxo", icon: BarChart3 },
   { href: "/settings", label: "Auth", icon: Settings }
