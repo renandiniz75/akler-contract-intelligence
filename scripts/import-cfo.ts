@@ -1,6 +1,7 @@
 import { inArray, like } from "drizzle-orm";
 import { db } from "@/db";
 import * as schema from "@/db/schema";
+import { cfoCategoryConsolidation, cfoMonthlyConsolidation } from "@/lib/cfo-consolidated-data";
 import { cfoActualRevenue, cfoImportMetadata } from "@/lib/cfo-import-data";
 import { seedData } from "@/lib/seed-data";
 
@@ -99,8 +100,47 @@ async function main() {
     }))
   );
 
+  await db.delete(schema.cfoCategorySummaries);
+  await db.delete(schema.cfoMonthlySummaries);
+
+  await db.insert(schema.cfoMonthlySummaries).values(
+    cfoMonthlyConsolidation.map((item) => ({
+      month: item.month,
+      actualOperatingReceipts: item.actualOperatingReceipts.toString(),
+      actualOperatingPayments: item.actualOperatingPayments.toString(),
+      actualOperatingNet: item.actualOperatingNet.toString(),
+      actualInvoicedRevenue: item.actualInvoicedRevenue.toString(),
+      actualFinancialInflows: item.actualFinancialInflows.toString(),
+      actualFinancialOutflows: item.actualFinancialOutflows.toString(),
+      actualIntercompanyInflows: item.actualIntercompanyInflows.toString(),
+      actualIntercompanyOutflows: item.actualIntercompanyOutflows.toString(),
+      projectedReceipts: item.projectedReceipts.toString(),
+      projectedExpenses: item.projectedExpenses.toString(),
+      projectedInvestments: item.projectedInvestments.toString(),
+      projectedNet: item.projectedNet.toString(),
+      actualOperationalCash: item.actualOperationalCash.toString(),
+      projectedCash: item.projectedCash.toString()
+    }))
+  );
+
+  for (let index = 0; index < cfoCategoryConsolidation.length; index += 500) {
+    const chunk = cfoCategoryConsolidation.slice(index, index + 500);
+    await db.insert(schema.cfoCategorySummaries).values(
+      chunk.map((item) => ({
+        month: item.month,
+        source: item.source,
+        category: item.category,
+        subcategory: item.subcategory,
+        flowType: item.flowType,
+        treatment: item.treatment,
+        amount: item.amount.toString(),
+        rowCount: item.rowCount
+      }))
+    );
+  }
+
   console.log(
-    `CFO import completed: ${contractIdMap.size} contracts upserted, ${seedData.contractItems.length} contract items refreshed, ${seedData.contractDocuments.length} documents refreshed, ${cfoActualRevenue.length} realized revenue rows imported from ${cfoImportMetadata.source}.`
+    `CFO import completed: ${contractIdMap.size} contracts upserted, ${seedData.contractItems.length} contract items refreshed, ${seedData.contractDocuments.length} documents refreshed, ${cfoActualRevenue.length} realized revenue rows imported, ${cfoMonthlyConsolidation.length} monthly summaries and ${cfoCategoryConsolidation.length} category summaries imported from ${cfoImportMetadata.source}.`
   );
   console.log(`Skipped notes: ${cfoImportMetadata.skippedActualRevenueRows.join("; ")}`);
 }

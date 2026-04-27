@@ -142,6 +142,52 @@ export const contractDocuments = pgTable(
   })
 );
 
+export const cfoMonthlySummaries = pgTable(
+  "cfo_monthly_summaries",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    month: varchar("month", { length: 7 }).notNull(),
+    actualOperatingReceipts: numeric("actual_operating_receipts", { precision: 14, scale: 2 }).notNull().default("0"),
+    actualOperatingPayments: numeric("actual_operating_payments", { precision: 14, scale: 2 }).notNull().default("0"),
+    actualOperatingNet: numeric("actual_operating_net", { precision: 14, scale: 2 }).notNull().default("0"),
+    actualInvoicedRevenue: numeric("actual_invoiced_revenue", { precision: 14, scale: 2 }).notNull().default("0"),
+    actualFinancialInflows: numeric("actual_financial_inflows", { precision: 14, scale: 2 }).notNull().default("0"),
+    actualFinancialOutflows: numeric("actual_financial_outflows", { precision: 14, scale: 2 }).notNull().default("0"),
+    actualIntercompanyInflows: numeric("actual_intercompany_inflows", { precision: 14, scale: 2 }).notNull().default("0"),
+    actualIntercompanyOutflows: numeric("actual_intercompany_outflows", { precision: 14, scale: 2 }).notNull().default("0"),
+    projectedReceipts: numeric("projected_receipts", { precision: 14, scale: 2 }).notNull().default("0"),
+    projectedExpenses: numeric("projected_expenses", { precision: 14, scale: 2 }).notNull().default("0"),
+    projectedInvestments: numeric("projected_investments", { precision: 14, scale: 2 }).notNull().default("0"),
+    projectedNet: numeric("projected_net", { precision: 14, scale: 2 }).notNull().default("0"),
+    actualOperationalCash: numeric("actual_operational_cash", { precision: 14, scale: 2 }).notNull().default("0"),
+    projectedCash: numeric("projected_cash", { precision: 14, scale: 2 }).notNull().default("0"),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull()
+  },
+  (table) => ({
+    monthIdx: index("cfo_monthly_summaries_month_idx").on(table.month)
+  })
+);
+
+export const cfoCategorySummaries = pgTable(
+  "cfo_category_summaries",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    month: varchar("month", { length: 7 }).notNull(),
+    source: varchar("source", { length: 80 }).notNull(),
+    category: varchar("category", { length: 180 }).notNull(),
+    subcategory: varchar("subcategory", { length: 180 }).notNull().default(""),
+    flowType: varchar("flow_type", { length: 180 }).notNull().default(""),
+    treatment: varchar("treatment", { length: 80 }).notNull().default("operational"),
+    amount: numeric("amount", { precision: 14, scale: 2 }).notNull(),
+    rowCount: integer("row_count").notNull().default(0),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull()
+  },
+  (table) => ({
+    monthIdx: index("cfo_category_summaries_month_idx").on(table.month),
+    sourceIdx: index("cfo_category_summaries_source_idx").on(table.source)
+  })
+);
+
 export const contractsRelations = relations(contracts, ({ many }) => ({
   items: many(contractItems),
   capex: many(capex),
