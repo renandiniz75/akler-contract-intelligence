@@ -3,6 +3,7 @@ import { db } from "@/db";
 import * as schema from "@/db/schema";
 import { cfoCategoryConsolidation, cfoMonthlyConsolidation } from "@/lib/cfo-consolidated-data";
 import { cfoActualRevenue, cfoImportMetadata } from "@/lib/cfo-import-data";
+import { cfoProjectedExpenseRows } from "@/lib/cfo-projected-expense-data";
 import { seedData } from "@/lib/seed-data";
 
 const importPrefix = "[CFO]";
@@ -139,8 +140,33 @@ async function main() {
     );
   }
 
+  await db.delete(schema.cfoProjectedExpenses);
+  for (let index = 0; index < cfoProjectedExpenseRows.length; index += 500) {
+    const chunk = cfoProjectedExpenseRows.slice(index, index + 500);
+    await db.insert(schema.cfoProjectedExpenses).values(
+      chunk.map((item) => ({
+        sourceRow: item.sourceRow,
+        company: item.company,
+        dueDate: item.dueDate,
+        month: item.month,
+        document: item.document,
+        counterparty: item.counterparty,
+        description: item.description,
+        amount: item.amount.toString(),
+        type: item.type,
+        category: item.category,
+        subcategory: item.subcategory,
+        originFile: item.originFile,
+        contractRef: item.contractRef,
+        notes: item.notes,
+        strategicClass: item.strategicClass,
+        searchText: item.searchText
+      }))
+    );
+  }
+
   console.log(
-    `CFO import completed: ${contractIdMap.size} contracts upserted, ${seedData.contractItems.length} contract items refreshed, ${seedData.contractDocuments.length} documents refreshed, ${cfoActualRevenue.length} realized revenue rows imported, ${cfoMonthlyConsolidation.length} monthly summaries and ${cfoCategoryConsolidation.length} category summaries imported from ${cfoImportMetadata.source}.`
+    `CFO import completed: ${contractIdMap.size} contracts upserted, ${seedData.contractItems.length} contract items refreshed, ${seedData.contractDocuments.length} documents refreshed, ${cfoActualRevenue.length} realized revenue rows imported, ${cfoMonthlyConsolidation.length} monthly summaries, ${cfoCategoryConsolidation.length} category summaries and ${cfoProjectedExpenseRows.length} projected expense rows imported from ${cfoImportMetadata.source}.`
   );
   console.log(`Skipped notes: ${cfoImportMetadata.skippedActualRevenueRows.join("; ")}`);
 }

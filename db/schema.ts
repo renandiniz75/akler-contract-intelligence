@@ -188,6 +188,36 @@ export const cfoCategorySummaries = pgTable(
   })
 );
 
+export const cfoProjectedExpenses = pgTable(
+  "cfo_projected_expenses",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    sourceRow: integer("source_row").notNull(),
+    company: varchar("company", { length: 80 }).notNull().default(""),
+    dueDate: varchar("due_date", { length: 10 }).notNull().default(""),
+    month: varchar("month", { length: 7 }).notNull(),
+    document: varchar("document", { length: 180 }).notNull().default(""),
+    counterparty: varchar("counterparty", { length: 180 }).notNull().default(""),
+    description: text("description").notNull().default(""),
+    amount: numeric("amount", { precision: 14, scale: 2 }).notNull(),
+    type: varchar("type", { length: 120 }).notNull().default(""),
+    category: varchar("category", { length: 180 }).notNull().default(""),
+    subcategory: varchar("subcategory", { length: 180 }).notNull().default(""),
+    originFile: varchar("origin_file", { length: 180 }).notNull().default(""),
+    contractRef: varchar("contract_ref", { length: 180 }).notNull().default(""),
+    notes: text("notes").notNull().default(""),
+    strategicClass: varchar("strategic_class", { length: 80 }).notNull().default("needs_curation"),
+    searchText: text("search_text").notNull().default(""),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull()
+  },
+  (table) => ({
+    monthIdx: index("cfo_projected_expenses_month_idx").on(table.month),
+    categoryIdx: index("cfo_projected_expenses_category_idx").on(table.category),
+    counterpartyIdx: index("cfo_projected_expenses_counterparty_idx").on(table.counterparty),
+    strategicClassIdx: index("cfo_projected_expenses_strategic_class_idx").on(table.strategicClass)
+  })
+);
+
 export const contractsRelations = relations(contracts, ({ many }) => ({
   items: many(contractItems),
   capex: many(capex),

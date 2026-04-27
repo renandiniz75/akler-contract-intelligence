@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { Route } from "next";
 import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
-import { BarChart3, Banknote, BrainCircuit, Building2, Coins, FileSpreadsheet, FileText, Gauge, Settings, Target, WalletCards } from "lucide-react";
+import { BarChart3, Banknote, BrainCircuit, Building2, Coins, Database, FileSpreadsheet, FileText, Gauge, Search, Settings, Target, WalletCards } from "lucide-react";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -15,6 +15,8 @@ const navigation: Array<{ href: Route; label: string; icon: LucideIcon }> = [
   { href: "/contracts", label: "Contratos", icon: FileText },
   { href: "/capacity", label: "Capacidade", icon: Target },
   { href: "/cfo-intelligence" as Route, label: "Intel. CFO", icon: BrainCircuit },
+  { href: "/expense-library" as Route, label: "Base despesas", icon: Database },
+  { href: "/search" as Route, label: "Busca", icon: Search },
   { href: "/cfo-model", label: "Modelo CFO", icon: FileSpreadsheet },
   { href: "/capex", label: "Investimentos", icon: Building2 },
   { href: "/opex", label: "Despesas", icon: WalletCards },
